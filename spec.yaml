@@ -1,0 +1,109 @@
+openapi: "3.0.3"
+info:
+  title: "Delilah Restó"
+  version: "1.0.0"
+  description: "La api de un sistema de gestión de pedidos de comida"
+  contact: 
+    name: Mariano Fernández
+paths:
+
+  /pedidos:
+    get:
+      summary: "Acceso a pedidos"
+      responses: 
+        "200":
+          description: "Recibir OK los pedidos existentes"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items: 
+                  $ref: "#components/schemas/Pedido"
+          
+  /pedido:
+    post:
+      description: "Enviar un nuevo pedido"
+      parameters:
+        - name: Pedido
+          in: path
+          description: "Los detalles del pedido"
+          required: true
+          schema:
+            type: object
+      responses:
+        "200":
+          description: "Todo OK"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pedido'
+  /pedido/{id_pedido}:
+    put:
+      summary: "Modificar pedido"
+      description: "Modificar algun pedido por id"
+      parameters:
+        - name: "Pedido"
+          required: true
+          in: path
+          schema:
+            type: "object"
+            $ref: '#/components/schemas/Pedido'
+      responses:
+        "200":
+          description: "OK"
+          content: 
+            application/json:
+              schema:
+                type: "object" 
+                $ref: '#/components/schemas/Pedido'
+        404:
+          description: "Falló"
+    delete:
+      summary: "Borrar comentario"
+      responses: 
+        200:
+          description: "OK"
+        404:
+          description: "Problemassss"
+
+      
+
+
+
+
+components:
+  schemas:
+    Pedido:
+      type: "object"
+      required:
+        - productos
+        - usuario
+      properties:
+        estado:
+          type: "string"
+          enum: 
+            - nuevo
+            - confirmado
+            - preparado
+            - enviando
+            - cancelado
+            - entregado
+        id_pedido:
+          type: "integer"
+          readOnly: true
+        hora:
+          type: "string"
+          format: "date"
+        pago_via:
+          type: "string"
+          enum: 
+          - efectivo
+          - tarjeta
+        pago_monto:
+          type: "integer"         
+        usuario: 
+          type: "string"
+        productos: 
+          type: "object"
+    
+  
