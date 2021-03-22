@@ -1,42 +1,24 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const MongoClient = require('mongodb').MongoClient
 
 const app = express();
 
-connectionString = "mongodb+srv://delilah:pnlNVo6s8GWSqRpr@cluster0.4aoof.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+
+app.use(bodyParser.json())
+
+app.use(bodyParser.urlencoded({ extended: true}))
 
 
-MongoClient.connect(connectionString, {
-    useUnifiedTopology: true})
-    .then(client => {
-        console.log('Connected to Database')
-        const db = client.db('delilah-db')
-        const productCollection = db.collection('products')
-        app.use(bodyParser.urlencoded({ extended: true}))
-        app.get("/", (req, res) => {
-            res.sendFile(__dirname + '/index.html')
-        })
-        app.get("/a", (req, res) => {
-            const listProd = db.collection('products').find().toArray()
-            .then(results => {
-                console.log(results)
-            })
-            .catch(console.error)
-        })
-        app.post("/addProduct", (req, res) => {
-            productCollection.insertOne(req.body)
-                .then(result=> {
-                    console.log(result)
-                    res.redirect('/')
-                })
-            res.send("envío exitoso")
-        })
-        app.listen(3000, function() {
-            console.log('Escuchando en 3000')
-        })
+app.get("/", (req, res) => {
+    res.json({ message: "Servicio operativo" });
+  });
 
-    })
-    .catch(console.error)
+require("./app/routes/producto_routes")(app);
 
+app.listen(8500, () => {
+    console.log("A la espera en 8500")
+})
+
+
+    
 

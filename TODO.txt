@@ -1,9 +1,2 @@
 README con instrucciones de instalación 
 
- documentación con Swagger bajo el estándar OpenAPI.
-
-Crea un archivo spec.yml en el raíz de tu proyecto y completa el listado de endpoints.
-
-
-Crea una nueva carpeta en tu computadora, comienza con un repositorio de git, e inicializa tu proyecto de NodeJS creando el archivo package.json.
-Instala las dependencias necesarias y crea tu servidor web.
