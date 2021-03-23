@@ -4,6 +4,7 @@ const Usuario = function(usuario) {
     this.nombre_usuario = usuario.nombre_usuario;
     this.password = usuario.password;
     this.nombre_completo = usuario.nombre_completo;
+    this.rol = usuario.rol
 }
 
 Usuario.create = (newUsuario, result) => {

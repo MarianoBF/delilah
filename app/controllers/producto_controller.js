@@ -2,8 +2,9 @@ const Producto = require("../models/producto_model.js");
 
 exports.create = (req, res) => {
   const producto = new Producto({
-    name: req.body.name,
-    description: req.body.description,
+    nombre: req.body.nombre,
+    descripcion: req.body.descripcion,
+    precio: req.body.precio,
   });
   Producto.create(producto, (err, data) => {
     if (err) {

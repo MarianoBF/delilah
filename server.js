@@ -14,6 +14,9 @@ app.get("/", (req, res) => {
   });
 
 require("./app/routes/producto_routes")(app);
+require("./app/routes/usuario_routes")(app);
+require("./app/routes/pedido_routes")(app);
+
 
 app.listen(8500, () => {
     console.log("A la espera en 8500")

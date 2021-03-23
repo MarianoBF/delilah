@@ -5,6 +5,7 @@ exports.create = (req, res) => {
     nombre_usuario: req.body.nombre_usuario,
     password: req.body.password,
     nombre_completo: req.body.nombre_completo,
+    rol: req.body.rol
   });
   Usuario.create(usuario, (err, data) => {
     if (err) {

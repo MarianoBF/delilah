@@ -1,9 +1,7 @@
-const Pedido = require("../models/producto_model.js");
+const Pedido = require("../models/pedido_model.js");
 
 exports.create = (req, res) => {
   const pedido = new Pedido({
-    name: req.body.name,
-    description: req.body.description,
     estado: req.body.estado,
     hora: req.body.hora,
     pago_via: req.body.pago_via,
