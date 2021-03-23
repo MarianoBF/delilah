@@ -66,6 +66,70 @@ paths:
         404:
           description: "Problemassss"
 
+
+  /usuarios:
+    get:
+      summary: "Acceso a listado de Usuarios"
+      responses: 
+        "200":
+          description: "Recibir OK los usuarios existentes"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items: 
+                  $ref: "#components/schemas/Usuario"
+          
+  /usuario:
+    post:
+      description: "Cargar un usuario"
+      parameters:
+        - name: Usuario
+          in: path
+          description: "Los detalles del usuario"
+          required: true
+          schema:
+            type: object
+      responses:
+        "200":
+          description: "Todo OK"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'
+
+
+  /productos:
+    get:
+      summary: "Listar productos"
+      responses: 
+        "200":
+          description: "Recibir OK los productos existentes"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items: 
+                  $ref: "#components/schemas/Producto"
+          
+  /producto:
+    post:
+      description: "Cargar un nuevo producto"
+      parameters:
+        - name: Producto
+          in: path
+          description: "Los detalles del producto"
+          required: true
+          schema:
+            type: object
+      responses:
+        "200":
+          description: "Todo OK"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Producto'
+
       
 
 
@@ -73,6 +137,43 @@ paths:
 
 components:
   schemas:
+    Usuario:
+      type: "object"
+      required:
+        - nombre_usuario
+        - password
+        - rol
+      properties:
+        id_usuario:
+          type: "integer"
+          readOnly: true
+        nombre_usuario: 
+          type: "string"
+        password: 
+          type: "string"
+        nombre_completo:
+          type: "string"
+        rol:
+          type: "string"
+          enum: 
+            - administrador
+            - cliente
+            - trabajador    
+        usuario: 
+          type: "string"
+    Producto:
+      type: "object"
+      required:
+        - nombre
+        - precio
+      properties:
+        id_pedido:
+          type: "integer"
+          readOnly: true   
+        nombre: 
+          type: "string"
+        precio: 
+          type: "integer"
     Pedido:
       type: "object"
       required:
@@ -104,6 +205,6 @@ components:
         usuario: 
           type: "string"
         productos: 
-          type: "object"
+          type: "array"
     
   

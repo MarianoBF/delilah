@@ -4,9 +4,9 @@ module.exports = app => {
     
     const productos = require("../controllers/producto_controller.js")
     
-    router.get("/a", productos.findAll);
+    router.get("/productos", productos.findAll);
     
-    router.post("/addProduct", productos.create)
+    router.post("/producto", productos.create)
     
     // router.update("/product/:id", productos.update)
     

@@ -1,12 +1,13 @@
 const sql = require("./db");
 
 const Producto = function(producto) {
-    this.name = producto.name;
-    this.description = producto.description;
+    this.nombre = producto.nombre;
+    this.descripcion = producto.descripcion;
+    this.precio = producto.precio;
 }
 
 Producto.create = (newProducto, result) => {
-    sql.query("INSERT INTO products SET ?", newProducto, (err, res) => {
+    sql.query("INSERT INTO productos SET ?", newProducto, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -19,7 +20,7 @@ Producto.create = (newProducto, result) => {
 
 
 Producto.getAll = result => {
-    sql.query("SELECT * FROM products", (err, res) => {
+    sql.query("SELECT * FROM productos", (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);
