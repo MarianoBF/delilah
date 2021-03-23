@@ -1,5 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+require('dotenv').config();
+
 
 const app = express();
 
@@ -22,6 +24,4 @@ app.listen(8500, () => {
     console.log("A la espera en 8500")
 })
 
-
-    
 

@@ -6,7 +6,6 @@ const Pedido = function(pedido) {
     this.pago_via = pedido.pago_via;
     this.pago_monto = pedido.pago_monto;
     this.usuario = pedido.usuario;
-    this.productos = pedido.productos;
 }
 
 Pedido.create = (newPedido, result) => {

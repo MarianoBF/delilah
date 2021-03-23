@@ -1,7 +1,7 @@
 module.exports = {
-    HOST: "localhost",
-    USER: "test_user",
-    PASSWORD: "password123Q",
+    HOST: process.env.DB_HOST,
+    USER: process.env.DB_USER,
+    PASSWORD: process.env.DB_PASS, 
     DB: "DelilahTestdb"
   };
   

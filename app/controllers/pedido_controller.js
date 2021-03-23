@@ -7,7 +7,6 @@ exports.create = (req, res) => {
     pago_via: req.body.pago_via,
     pago_monto: req.body.pago_monto,
     usuario: req.body.usuario,
-    productos: req.body.productos,
   });
   Pedido.create(pedido, (err, data) => {
     if (err) {
