@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS pedidos (
   FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
 ) DEFAULT CHARSET=UTF8;
 
-CREATE TABLE IF NOT EXISTS detalle_pedido (
+CREATE TABLE IF NOT EXISTS detallePedidos (
   detalle_pedido_id INT(10) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   id_pedido INT(10) NOT NULL,
   id_producto INT(10) NOT NULL,

@@ -6,7 +6,7 @@ exports.create = (req, res) => {
     hora: req.body.hora,
     pago_via: req.body.pago_via,
     pago_monto: req.body.pago_monto,
-    usuario: req.body.usuario,
+    id_usuario: req.body.id_usuario,
   });
   Pedido.create(pedido, (err, data) => {
     if (err) {
@@ -26,3 +26,4 @@ exports.findAll = (req, res) => {
     }
     })
 };
+
