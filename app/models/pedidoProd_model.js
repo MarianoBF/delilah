@@ -18,9 +18,8 @@ PedidoProd.create = (newPedidoProd, result) => {
     });
 };
 
-
 PedidoProd.getAll = result => {
-    sql.query("SELECT * FROM detallePedidos", (err, res) => {
+    sql.query("SELECT * FROM pedidos AS pe INNER JOIN detallePedidos AS dp ON pe.id_pedido = dp.id_pedido;", (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, res)
