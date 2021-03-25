@@ -16,7 +16,8 @@ exports.create = (req, res) => {
   };
   
 exports.findAll = (req, res) => {
-    PedidoProd.getAll((err, data)=> {
+    const id = req.query.id_pedido
+    PedidoProd.getAll(id, (err, data)=> {
     if (err) {
         res.status(500).send(err);
     } else { 

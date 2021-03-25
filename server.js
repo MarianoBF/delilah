@@ -1,5 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const swaggerUI = require('swagger-ui-express');
+const YAML = require('yamljs')
+const docs = YAML.load('./spec.yaml');
+
 require('dotenv').config();
 
 
@@ -10,6 +14,7 @@ app.use(bodyParser.json())
 
 app.use(bodyParser.urlencoded({ extended: true}))
 
+app.use('/docs', swaggerUI.serve, swaggerUI.setup(docs));
 
 app.get("/", (req, res) => {
     res.json({ message: "Servicio operativo" });

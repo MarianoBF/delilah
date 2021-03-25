@@ -6,11 +6,11 @@ module.exports = app => {
     
     router.get("/productos", productos.findAll);
     
-    router.post("/producto", productos.create)
+    router.post("/producto", productos.create);
     
-    // router.update("/product/:id", productos.update)
+    router.put("/producto/", productos.update);
     
-    // router.delete("a", productos.delete)
+    // router.delete("/producto/:id", productos.delete)
     
 
     app.use("/api/", router)

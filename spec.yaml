@@ -10,6 +10,8 @@ paths:
   /pedidos:
     get:
       summary: "Acceso a pedidos"
+      tags: 
+        - "Pedidos"
       responses: 
         "200":
           description: "Recibir OK los pedidos existentes"
@@ -22,7 +24,9 @@ paths:
           
   /pedido:
     post:
-      description: "Enviar un nuevo pedido"
+      summary: "Enviar un nuevo pedido"
+      tags: 
+        - "Pedidos"
       parameters:
         - name: Pedido
           in: path
@@ -39,8 +43,9 @@ paths:
                 $ref: '#/components/schemas/Pedido'
   /pedido/{id_pedido}:
     put:
-      summary: "Modificar pedido"
-      description: "Modificar algun pedido por id"
+      summary: "Modificar algun pedido por id"
+      tags: 
+        - "Pedidos"
       parameters:
         - name: "Pedido"
           required: true
@@ -59,7 +64,9 @@ paths:
         404:
           description: "Falló"
     delete:
-      summary: "Borrar comentario"
+      summary: "Borrar Pedido"
+      tags: 
+        - "Pedidos"
       responses: 
         200:
           description: "OK"
@@ -70,6 +77,8 @@ paths:
   /usuarios:
     get:
       summary: "Acceso a listado de Usuarios"
+      tags: 
+        - "Usuarios"
       responses: 
         "200":
           description: "Recibir OK los usuarios existentes"
@@ -82,7 +91,9 @@ paths:
           
   /usuario:
     post:
-      description: "Cargar un usuario"
+      tags: 
+        - "Usuarios"
+      summary: "Cargar un usuario"
       parameters:
         - name: Usuario
           in: path
@@ -98,10 +109,44 @@ paths:
               schema:
                 $ref: '#/components/schemas/Usuario'
 
+  /usuario/{id_usuario}:
+    put:
+      summary: "Modificar Usuario por id"
+      tags: 
+        - "Usuarios"
+      parameters:
+        - name: "Usuario"
+          required: true
+          in: path
+          schema:
+            type: "object"
+            $ref: '#/components/schemas/Usuario'
+      responses:
+        "200":
+          description: "OK"
+          content: 
+            application/json:
+              schema:
+                type: "object" 
+                $ref: '#/components/schemas/Usuario'
+        404:
+          description: "Falló"
+    delete:
+      summary: "Borrar Usuario"
+      tags: 
+        - "Usuarios"
+      responses: 
+        200:
+          description: "OK"
+        404:
+          description: "Problemassss"
+
               
   /productos:
     get:
       summary: "Listar productos"
+      tags: 
+        - "Productos"
       responses: 
         "200":
           description: "Recibir OK los productos existentes"
@@ -114,7 +159,9 @@ paths:
           
   /producto:
     post:
-      description: "Cargar un nuevo producto"
+      tags: 
+        - "Productos"
+      summary: "Cargar un nuevo producto"
       parameters:
         - name: Producto
           in: path
@@ -130,7 +177,106 @@ paths:
               schema:
                 $ref: '#/components/schemas/Producto'
 
-      
+  /producto/{id_producto}:
+    put:
+      summary: "Modificar Producto por id"
+      tags: 
+        - "Productos"
+      parameters:
+        - name: "Producto"
+          required: true
+          in: path
+          schema:
+            type: "object"
+            $ref: '#/components/schemas/Producto'
+      responses:
+        "200":
+          description: "OK"
+          content: 
+            application/json:
+              schema:
+                type: "object" 
+                $ref: '#/components/schemas/Producto'
+        404:
+          description: "Falló"
+    delete:
+      summary: "Borrar Producto"
+      tags: 
+        - "Productos"
+      responses: 
+        200:
+          description: "OK"
+        404:
+          description: "Problemassss"
+
+
+
+  /PedidoProds:
+    get:
+      summary: "Listar Productos por pedido"
+      tags: 
+        - "Productos por Pedido"
+      responses: 
+        "200":
+          description: "Recibir OK los productos existentes en el pedido"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items: 
+                  $ref: "#components/schemas/PedidoProducto"
+          
+  /PedidoProd:
+    post:
+      tags: 
+        - "Productos por Pedido"
+      summary: "Cargar un nuevo producto en un pedido"
+      parameters:
+        - name: Producto
+          in: path
+          description: "Los detalles del producto"
+          required: true
+          schema:
+            type: object
+      responses:
+        "200":
+          description: "Todo OK"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PedidoProducto'
+
+  /PedidoProds/{id_PedidoProd}:
+    put:
+      summary: "Modificar Producto en Pedido por id del pedido_prod"
+      tags: 
+        - "Productos por Pedido"
+      parameters:
+        - name: "Producto"
+          required: true
+          in: path
+          schema:
+            type: "object"
+            $ref: '#/components/schemas/PedidoProducto'
+      responses:
+        "200":
+          description: "OK"
+          content: 
+            application/json:
+              schema:
+                type: "object" 
+                $ref: '#/components/schemas/PedidoProducto'
+        404:
+          description: "Falló"
+    delete:
+      summary: "Borrar Producto en Pedido"
+      tags: 
+        - "Productos por Pedido"
+      responses: 
+        200:
+          description: "OK"
+        404:
+          description: "Problemassss"
 
 
 
@@ -206,5 +352,22 @@ components:
           type: "string"
         productos: 
           type: "array"
-    
+    ProductoPedido:
+      type: "object"
+      required:
+        - id_producto
+        - id_pedido
+        - cantidad
+      properties:
+        id_pedidoProducto:
+          type: "integer"
+          readOnly: true   
+        id_producto:
+          type: "integer"
+        id_pedido:
+          type: "integer"
+        cantidad: 
+          type: "integer"
+
+      
   

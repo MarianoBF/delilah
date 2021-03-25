@@ -32,4 +32,19 @@ Producto.getAll = result => {
     });
 };
 
+
+Producto.actual = (id, actualProd, result) => {
+    sql.query(`UPDATE productos SET nombre = '${actualProd.nombre}', precio = ${actualProd.precio}, descripcion =  '${actualProd.descripcion}'  WHERE id_producto=${id};`, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return
+        }
+        console.log("productos :", res);
+        result(null, res, actualProd)
+        return
+    });
+};
+
+
 module.exports = Producto;
