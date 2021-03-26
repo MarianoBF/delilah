@@ -36,7 +36,7 @@ PedidoProd.getAll = (id, result) => {
 
 PedidoProd.update = (id, pedidoProd, result) => {
     sql.query(
-      `UPDATE detallePedidos SET id_pedido = ${pedidoProd.id_pedido}, id_producto = ${pedidoProd.id_producto}, cantidad_producto =  ${pedidoProd.cantidad_producto}  WHERE id_producto=${id};`,
+      `UPDATE detallePedidos SET id_pedido = ${pedidoProd.id_pedido}, id_producto = ${pedidoProd.id_producto}, cantidad_producto =  ${pedidoProd.cantidad_producto}  WHERE detalle_pedido_id=${id};`,
       (err, res) => {
         if (err) {
           console.log("error: ", err);
@@ -51,7 +51,7 @@ PedidoProd.update = (id, pedidoProd, result) => {
   
   PedidoProd.delete = (id, result) => {
       sql.query(
-        `DELETE FROM detallePedidos WHERE id_detallePedidos=${id};`,
+        `DELETE FROM detallePedidos WHERE detalle_pedido_id=${id};`,
         (err, res) => {
           if (err) {
             console.log("error: ", err);

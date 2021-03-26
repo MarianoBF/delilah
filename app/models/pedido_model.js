@@ -35,7 +35,7 @@ Pedido.getAll = (result) => {
 
 Pedido.update = (id, updatePedido, result) => {
   sql.query(
-    `UPDATE pedidos SET estado = '${updatePedido.estado}', hora = ${updatePedido.hora}, pago_via = '${updatePedido.pago_via}', pago_monto =  ${updatePedido.pago_monto}, id_usuario =  ${updatePedido.id_usuario}  WHERE id_producto=${id};`,
+    `UPDATE pedidos SET estado = '${updatePedido.estado}', hora = '${updatePedido.hora}', pago_via = '${updatePedido.pago_via}', pago_monto =  ${updatePedido.pago_monto}, id_usuario =  ${updatePedido.id_usuario}  WHERE id_pedido=${id};`,
     (err, res) => {
       if (err) {
         console.log("error: ", err);
