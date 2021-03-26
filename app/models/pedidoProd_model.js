@@ -20,7 +20,6 @@ PedidoProd.create = (newPedidoProd, result) => {
 
 //Devolver todos los productos bajo el pedido
 
-
 PedidoProd.getAll = (id, result) => {
     sql.query("SELECT * FROM pedidos AS pe INNER JOIN detallePedidos AS dp ON pe.id_pedido = dp.id_pedido WHERE pe.id_pedido = "+id+";", (err, res) => {
         if (err) {
@@ -33,5 +32,36 @@ PedidoProd.getAll = (id, result) => {
         return
     })
 };
+
+
+PedidoProd.update = (id, pedidoProd, result) => {
+    sql.query(
+      `UPDATE detallePedidos SET id_pedido = ${pedidoProd.id_pedido}, id_producto = ${pedidoProd.id_producto}, cantidad_producto =  ${pedidoProd.cantidad_producto}  WHERE id_producto=${id};`,
+      (err, res) => {
+        if (err) {
+          console.log("error: ", err);
+          result(null, err);
+          return;
+        }
+        result(null, res, pedidoProd);
+        return;
+      }
+    );
+  };
+  
+  PedidoProd.delete = (id, result) => {
+      sql.query(
+        `DELETE FROM detallePedidos WHERE id_detallePedidos=${id};`,
+        (err, res) => {
+          if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+          }
+          result(`Pedido Producto ${id} borrado`);
+          return;
+        }
+      );
+    };
 
 module.exports = PedidoProd;

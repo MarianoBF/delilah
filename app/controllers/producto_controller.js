@@ -32,7 +32,7 @@ exports.update = (req, res) => {
     precio: req.body.precio,
   });
   const id = req.query.id_producto;
-  Producto.actual(id, producto, (err, data)=> {
+  Producto.update(id, producto, (err, data)=> {
     if (err) {
       res.status(500).send(err);
     } else { 

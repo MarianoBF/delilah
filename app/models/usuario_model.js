@@ -33,4 +33,35 @@ Usuario.getAll = result => {
     });
 };
 
+Usuario.update = (id, updateUsuario, result) => {
+    sql.query(
+      `UPDATE usuarios SET nombre_usuario = '${updateUsuario.nombre_usuario}', password = '${updateUsuario.password}', rol =  '${updateUsuario.rol}', nombre_completo = '${updateUsuario.nombre_completo}'  WHERE id_producto=${id};`,
+      (err, res) => {
+        if (err) {
+          console.log("error: ", err);
+          result(null, err);
+          return;
+        }
+        console.log("productos :", res);
+        result(null, res, updateUsuario);
+        return;
+      }
+    );
+  };
+  
+  Usuario.delete = (id, result) => {
+      sql.query(
+        `DELETE FROM usuarios WHERE id_producto=${id};`,
+        (err, res) => {
+          if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+          }
+          result(`Usuario ${id} borrado`);
+          return;
+        }
+      );
+    };
+
 module.exports = Usuario;
