@@ -33,7 +33,7 @@ exports.update = (req, res) => {
     nombre_completo: req.body.nombre_completo,
     rol: req.body.rol
   });
-  const id = req.query.id_usuario;
+  const id = req.params.id_usuario;
   Usuario.update(id, usuario, (err, data)=> {
     if (err) {
       res.status(500).send(err);
@@ -44,7 +44,7 @@ exports.update = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-  const id = req.query.id_usuario;
+  const id = req.params.id_usuario;
   Usuario.delete(id, (err, data)=> {
     if (err) {
       res.status(500).send(err);

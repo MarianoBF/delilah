@@ -31,7 +31,7 @@ exports.update = (req, res) => {
     descripcion: req.body.descripcion,
     precio: req.body.precio,
   });
-  const id = req.query.id_producto;
+  const id = req.params.id_producto;
   Producto.update(id, producto, (err, data)=> {
     if (err) {
       res.status(500).send(err);
@@ -42,7 +42,7 @@ exports.update = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-  const id = req.query.id_producto;
+  const id = req.params.id_producto;
   Producto.delete(id, (err, data)=> {
     if (err) {
       res.status(500).send(err);

@@ -32,7 +32,7 @@ exports.update = (req, res) => {
     id_producto: req.body.id_producto,
     cantidad_producto: req.body.cantidad_producto,
   });
-  const id = req.query.id_pedidoProducto;
+  const id = req.params.id_pedidoProducto;
   PedidoProd.update(id, pedidoProd, (err, data)=> {
     if (err) {
       res.status(500).send(err);
@@ -43,7 +43,7 @@ exports.update = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-  const id = req.query.id_pedidoProducto;
+  const id = req.params.id_pedidoProducto;
   PedidoProd.delete(id, (err, data)=> {
     if (err) {
       res.status(500).send(err);

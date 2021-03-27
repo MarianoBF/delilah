@@ -35,7 +35,7 @@ exports.update = (req, res) => {
     pago_monto: req.body.pago_monto,
     id_usuario: req.body.id_usuario,
   });
-  const id = req.query.id_pedido;
+  const id = req.params.id_pedido;
   Pedido.update(id, pedido, (err, data)=> {
     if (err) {
       res.status(500).send(err);
@@ -46,7 +46,7 @@ exports.update = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-  const id = req.query.id_pedido;
+  const id = req.params.id_pedido;
   Pedido.delete(id, (err, data)=> {
     if (err) {
       res.status(500).send(err);
