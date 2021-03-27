@@ -6,11 +6,13 @@ module.exports = app => {
     
     router.get("/usuarios", usuarios.findAll);
     
-    router.post("/usuario", usuarios.create);
+    router.post("/usuario/crear", usuarios.create);
 
     router.put("/usuario/:id_usuario", usuarios.update);
 
     router.delete("/usuario/:id_usuario", usuarios.delete);
+
+    router.post("/usuario/login", usuarios.login);
 
     app.use("/api/", router)
 

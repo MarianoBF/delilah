@@ -1,5 +1,4 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const swaggerUI = require('swagger-ui-express');
 const YAML = require('yamljs')
 const docs = YAML.load('./spec.yaml');
@@ -10,9 +9,9 @@ require('dotenv').config();
 const app = express();
 
 
-app.use(bodyParser.json())
+app.use(express.json())
 
-app.use(bodyParser.urlencoded({ extended: true}))
+app.use(express.urlencoded({ extended: true}))
 
 app.use('/docs', swaggerUI.serve, swaggerUI.setup(docs));
 

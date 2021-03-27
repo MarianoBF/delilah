@@ -64,4 +64,20 @@ Usuario.update = (id, updateUsuario, result) => {
       );
     };
 
+    // sql.query("SELECT * FROM usuarios WHERE nombre_usuario="+usuario.nombre_usuario+";", (err, res) => {
+
+
+    Usuario.get = (usuario, result) => {
+      sql.query("SELECT * FROM usuarios WHERE nombre_usuario='"+usuario.nombre_usuario+"';", (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return
+        }
+        console.log("Usuarios :", res);
+        result(null, res)
+        return
+    });
+    };
+
 module.exports = Usuario;
