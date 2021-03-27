@@ -5,3 +5,6 @@ module.exports = {
     DB: "DelilahTestdb"
   };
   
+  module.exports = {
+    secret: "process.env.SECRET"
+  };

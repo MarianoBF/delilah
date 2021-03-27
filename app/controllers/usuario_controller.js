@@ -1,4 +1,6 @@
 const Usuario = require("../models/usuario_model.js");
+const jwt = require("jsonwebtoken");
+const config = require("../config/db.config.js");
 
 exports.create = (req, res) => {
   const usuario = new Usuario({
@@ -14,6 +16,21 @@ exports.create = (req, res) => {
       res.send(data);
     }
     });
+};
+
+exports.login = (req, res) => {
+  const usuario = req.body.nombre_usuario;
+  Usuario.find(usuario, (err, data)=> {
+    if (err) {
+      res.status(500).send(err);
+    } else { 
+      // req.body.password === password ? console.log("a") : console.log("b")
+      console.log("aaa"+data)
+      const token = jwt.sign({ id: usuario.id_usuario }, config.secret, {expiresIn: 86400});
+      
+      res.send(token)
+    }
+    })
 };
 
 exports.findAll = (req, res) => {
