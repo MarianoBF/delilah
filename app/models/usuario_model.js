@@ -64,9 +64,6 @@ Usuario.update = (id, updateUsuario, result) => {
       );
     };
 
-    // sql.query("SELECT * FROM usuarios WHERE nombre_usuario="+usuario.nombre_usuario+";", (err, res) => {
-
-
     Usuario.get = (usuario, result) => {
       sql.query("SELECT * FROM usuarios WHERE nombre_usuario='"+usuario.nombre_usuario+"';", (err, res) => {
         if (err) {
