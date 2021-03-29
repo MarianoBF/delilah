@@ -1,4 +1,5 @@
 const Pedido = require("../models/pedido_model.js");
+const chequearToken = require("../middleware/auth")
 
 exports.create = (req, res) => {
   const pedido = new Pedido({
@@ -18,14 +19,20 @@ exports.create = (req, res) => {
 };
 
 exports.findAll = (req, res) => {
-    Pedido.getAll((err, data)=> {
+  const validacion = chequearToken(req.headers['x-access-token'])
+  
+  if (validacion.resultado==="Autorizado") {
+    Pedido.getAll(validacion.id_usuario, (err, data)=> {
     if (err) {
       res.status(500).send(err);
     } else { 
       res.send(data)
     }
     })
+} else {
+  res.send("No autorizado")
 };
+}
 
 exports.update = (req, res) => {
   const pedido = new Pedido({

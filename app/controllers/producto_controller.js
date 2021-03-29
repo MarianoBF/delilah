@@ -2,6 +2,9 @@ const Producto = require("../models/producto_model");
 const chequearToken = require("../middleware/auth")
 
 exports.create = (req, res) => {
+  const validacion = chequearToken(req.headers['x-access-token'])
+  if (validacion.resultado==="Autorizado"&&validacion.rol==="Administrador") {
+
   const producto = new Producto({
     nombre: req.body.nombre,
     descripcion: req.body.descripcion,
@@ -14,10 +17,13 @@ exports.create = (req, res) => {
       res.send(data);
     }
     });
-};
+} else {
+  res.status(403).send("No está autorizado a crear productos")
+}
+} 
 
 exports.findAll = (req, res) => {
-  if (chequearToken(req.headers['x-access-token'])==="Autorizado") {
+  if (chequearToken(req.headers['x-access-token']).resultado==="Autorizado") {
   Producto.getAll((err, data)=> {
     if (err) {
       res.status(500).send(err);

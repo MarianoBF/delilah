@@ -11,7 +11,9 @@ chequearToken = (token) => {
     if (err) {
         validacion =  "Token inválido";
     } else {
-        validacion = "Autorizado"; 
+        decoded.resultado = "Autorizado";
+        validacion = decoded;
+        console.log(decoded)
     }
   });
   return validacion

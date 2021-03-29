@@ -20,8 +20,9 @@ Pedido.create = (newPedido, result) => {
   });
 };
 
-Pedido.getAll = (result) => {
-  sql.query("SELECT * FROM pedidos", (err, res) => {
+Pedido.getAll = (id, result) => {
+  console.log(id)
+  sql.query("SELECT * FROM pedidos WHERE id_usuario="+id+";", (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);
