@@ -1,4 +1,5 @@
-const Producto = require("../models/producto_model.js");
+const Producto = require("../models/producto_model");
+const chequearToken = require("../middleware/auth")
 
 exports.create = (req, res) => {
   const producto = new Producto({
@@ -16,6 +17,7 @@ exports.create = (req, res) => {
 };
 
 exports.findAll = (req, res) => {
+  if (chequearToken(req.headers['x-access-token'])==="Autorizado") {
   Producto.getAll((err, data)=> {
     if (err) {
       res.status(500).send(err);
@@ -23,6 +25,9 @@ exports.findAll = (req, res) => {
       res.send(data)
     }
     })
+  } else {
+    res.status(403).send("Token inválido")
+  }
 };
 
 exports.update = (req, res) => {
