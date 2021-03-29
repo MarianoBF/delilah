@@ -5,6 +5,8 @@ module.exports = app => {
     const pedidos = require("../controllers/pedido_controller.js")
     
     router.get("/pedidos", pedidos.findAll);
+
+    router.get("/pedido/:id_pedido", pedidos.findOne);
     
     router.post("/pedido", pedidos.create);
 

@@ -20,9 +20,47 @@ Pedido.create = (newPedido, result) => {
   });
 };
 
-Pedido.getAll = (id, result) => {
-  console.log(id)
-  sql.query("SELECT * FROM pedidos WHERE id_usuario="+id+";", (err, res) => {
+Pedido.getAll = (result) => {
+  sql.query("SELECT * FROM pedidos AS pe INNER JOIN detallePedidos AS dp ON pe.id_pedido = dp.id_pedido", (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+    console.log("Pedidos :", res);
+    result(null, res);
+    return;
+  });
+};
+
+Pedido.getAllFromOne = (id, result) => {
+  sql.query(`SELECT * FROM pedidos AS pe INNER JOIN detallePedidos AS dp ON pe.id_pedido = dp.id_pedido WHERE pe.id_usuario=${id}`, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+    console.log("Pedidos :", res);
+    result(null, res);
+    return;
+  });
+};
+
+Pedido.getOne = (id_usuario, id_pedido, result) => {
+  sql.query(`SELECT * FROM pedidos AS pe INNER JOIN detallePedidos AS dp ON pe.id_pedido = dp.id_pedido WHERE pe.id_usuario=${id_usuario} AND pe.id_pedido=${id_pedido};`, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+    console.log("Pedidos :", res);
+    result(null, res);
+    return;
+  });
+};
+
+Pedido.getOneAdmin = (id_pedido, result) => {
+  sql.query(`SELECT * FROM pedidos AS pe INNER JOIN detallePedidos AS dp ON pe.id_pedido = dp.id_pedido WHERE pe.id_pedido=${id_pedido};`, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);
@@ -36,7 +74,7 @@ Pedido.getAll = (id, result) => {
 
 Pedido.update = (id, updatePedido, result) => {
   sql.query(
-    `UPDATE pedidos SET estado = '${updatePedido.estado}', hora = '${updatePedido.hora}', pago_via = '${updatePedido.pago_via}', pago_monto =  ${updatePedido.pago_monto}, id_usuario =  ${updatePedido.id_usuario}  WHERE id_pedido=${id};`,
+    `UPDATE pedidos SET estado = '${updatePedido.estado}' WHERE id_pedido=${id};`,
     (err, res) => {
       if (err) {
         console.log("error: ", err);

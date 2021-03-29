@@ -47,6 +47,7 @@ INSERT INTO productos VALUES (5, 'prod_prueba5', 'Un producto de prueba1', 450);
 INSERT INTO pedidos VALUES (1, 'pendiente', '2021-03-01 09:20:20', 'tarjeta', 1050, "", 2);
 INSERT INTO pedidos VALUES (2, 'en camino', '2021-03-01 09:20:20', 'tarjeta', 2902, "Enviar servilletas extra", 3);
 
+
 INSERT INTO detallePedidos VALUES (2, 1, 2, 1);
 INSERT INTO detallePedidos VALUES (1, 1, 1, 3);
 INSERT INTO detallePedidos VALUES (3, 1, 5, 1);

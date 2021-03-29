@@ -42,8 +42,29 @@ paths:
               schema:
                 $ref: '#/components/schemas/Pedido'
   /pedido/{id_pedido}:
+    get:
+      summary: "Listar un pedido"
+      tags: 
+        - "Pedidos"
+      parameters:
+        - name: "Pedido"
+          required: true
+          in: path
+          schema:
+            type: "object"
+            $ref: '#/components/schemas/Pedido'
+      responses:
+        "200":
+          description: "OK"
+          content: 
+            application/json:
+              schema:
+                type: "object" 
+                $ref: '#/components/schemas/Pedido'
+        404:
+          description: "Falló"
     put:
-      summary: "Modificar algun pedido por id"
+      summary: "Modificar algun pedido por id (sólo el estado)"
       tags: 
         - "Pedidos"
       parameters:
