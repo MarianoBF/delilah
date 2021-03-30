@@ -232,7 +232,7 @@ paths:
 
 
 
-  /PedidoProds:
+  /detallePedidos:
     get:
       summary: "Listar Productos por pedido"
       tags: 
@@ -247,7 +247,7 @@ paths:
                 items: 
                   $ref: "#components/schemas/PedidoProducto"
           
-  /PedidoProd:
+  /detallePedido:
     post:
       tags: 
         - "Productos por Pedido"
@@ -267,7 +267,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/PedidoProducto'
 
-  /PedidoProds/{id_PedidoProd}:
+  /detallePedido/{id_PedidoProd}:
     put:
       summary: "Modificar Producto en Pedido por id del pedido_prod"
       tags: 

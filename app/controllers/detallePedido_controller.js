@@ -4,7 +4,7 @@ exports.create = (req, res) => {
   const validacion = chequearToken(req.headers["x-access-token"]);
   if (
     validacion.resultado === "Autorizado" &&
-      validacion.id_usuario === req.id_usuario 
+    validacion.id_usuario === +req.body.id_usuario
   ) {
     const detallePedido = new DetallePedido({
       id_pedido: req.body.id_pedido,
@@ -12,16 +12,15 @@ exports.create = (req, res) => {
       cantidad_producto: req.body.cantidad_producto,
     });
     DetallePedido.create(detallePedido, (err, data) => {
-    if (err) {
-      res.status(500).send(err)
-    } else {
-      res.send(data);
-    }
+      if (err) {
+        res.status(500).send(err);
+      } else {
+        res.send(data);
+      }
     });
   } else if (
     validacion.resultado === "Autorizado" &&
     validacion.rol === "Administrador"
-      
   ) {
     const detallePedido = new DetallePedido({
       id_pedido: req.body.id_pedido,
@@ -29,28 +28,31 @@ exports.create = (req, res) => {
       cantidad_producto: req.body.cantidad_producto,
     });
     DetallePedido.create(detallePedido, (err, data) => {
-    if (err) {
-      res.status(500).send(err)
-    } else {
-      res.send(data);
-    }
-    })
-  } else {
-  res.send("No autorizado");
-}
-}
-  
-exports.findAll = (req, res) => {
-  const validacion = chequearToken(req.headers['x-access-token'])
-  if (validacion.resultado==="Autorizado"&&validacion.rol==="Administrador"){
-    const id = req.query.id_pedido
-    DetallePedido.getAll(id, (err, data)=> {
-    if (err) {
+      if (err) {
         res.status(500).send(err);
-    } else { 
-        res.send(data)
-    }
-    })
+      } else {
+        res.send(data);
+      }
+    });
+  } else {
+    res.send("No autorizado");
+  }
+};
+
+exports.findAll = (req, res) => {
+  const validacion = chequearToken(req.headers["x-access-token"]);
+  if (
+    validacion.resultado === "Autorizado" &&
+    validacion.rol === "Administrador"
+  ) {
+    const id = req.query.id_pedido;
+    DetallePedido.getAll(id, (err, data) => {
+      if (err) {
+        res.status(500).send(err);
+      } else {
+        res.send(data);
+      }
+    });
   } else {
     res.status(403).send("No está autorizado a ver este listado");
   }
@@ -59,25 +61,7 @@ exports.findAll = (req, res) => {
 exports.update = (req, res) => {
   if (
     validacion.resultado === "Autorizado" &&
-      validacion.id_usuario === req.id_usuario 
-  ) {
-  const detallePedido = new DetallePedido({
-    id_pedido: req.body.id_pedido,
-    id_producto: req.body.id_producto,
-    cantidad_producto: req.body.cantidad_producto,
-  });
-  const id = req.params.id_pedidoProducto;
-  DetallePedido.update(id, detallePedido, (err, data)=> {
-    if (err) {
-      res.status(500).send(err);
-    } else { 
-      res.send(data)
-    }
-    })
-  } else if (
-    validacion.resultado === "Autorizado" &&
-    validacion.rol === "Administrador"
-      
+    validacion.id_usuario === +req.body.id_usuario
   ) {
     const detallePedido = new DetallePedido({
       id_pedido: req.body.id_pedido,
@@ -85,13 +69,30 @@ exports.update = (req, res) => {
       cantidad_producto: req.body.cantidad_producto,
     });
     const id = req.params.id_pedidoProducto;
-    DetallePedido.update(id, detallePedido, (err, data)=> {
+    DetallePedido.update(id, detallePedido, (err, data) => {
       if (err) {
         res.status(500).send(err);
-      } else { 
-        res.send(data)
+      } else {
+        res.send(data);
       }
-      })
+    });
+  } else if (
+    validacion.resultado === "Autorizado" &&
+    validacion.rol === "Administrador"
+  ) {
+    const detallePedido = new DetallePedido({
+      id_pedido: req.body.id_pedido,
+      id_producto: req.body.id_producto,
+      cantidad_producto: req.body.cantidad_producto,
+    });
+    const id = req.params.id_pedidoProducto;
+    DetallePedido.update(id, detallePedido, (err, data) => {
+      if (err) {
+        res.status(500).send(err);
+      } else {
+        res.send(data);
+      }
+    });
   } else {
     res.send("No autorizado");
   }
@@ -100,31 +101,29 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
   if (
     validacion.resultado === "Autorizado" &&
-      validacion.id_usuario === req.id_usuario 
+    validacion.id_usuario === +req.body.id_usuario
   ) {
-  const id = req.params.id_pedidoProducto;
-  DetallePedido.delete(id, (err, data)=> {
-    if (err) {
-      res.status(500).send(err);
-    } else { 
-      res.send(data)
-    }
-    })
+    const id = req.params.id_pedidoProducto;
+    DetallePedido.delete(id, (err, data) => {
+      if (err) {
+        res.status(500).send(err);
+      } else {
+        res.send(data);
+      }
+    });
   } else if (
     validacion.resultado === "Autorizado" &&
     validacion.rol === "Administrador"
-      
   ) {
     const id = req.params.id_pedidoProducto;
-    DetallePedido.delete(id, (err, data)=> {
+    DetallePedido.delete(id, (err, data) => {
       if (err) {
         res.status(500).send(err);
-      } else { 
-        res.send(data)
+      } else {
+        res.send(data);
       }
-      })
-}
- else {
-  res.send("No autorizado");
-}
+    });
+  } else {
+    res.send("No autorizado");
+  }
 };
