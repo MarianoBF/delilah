@@ -22,7 +22,7 @@ app.get("/", (req, res) => {
 require("./app/routes/producto_routes")(app);
 require("./app/routes/usuario_routes")(app);
 require("./app/routes/pedido_routes")(app);
-require("./app/routes/pedidoProd_routes")(app);
+require("./app/routes/detallePedido_routes")(app);
 
 
 
