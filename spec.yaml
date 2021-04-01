@@ -169,14 +169,18 @@ paths:
       tags: 
         - "Productos"
       responses: 
-        "200":
-          description: "Recibir OK los productos existentes"
+        200:
+          description: "Recibir los productos existentes"
           content:
             application/json:
               schema:
                 type: "array"
                 items: 
                   $ref: "#components/schemas/Producto"
+        403:
+          description: "No autorizado"
+        500:
+          description: "Internal server error"             
           
   /producto:
     post:
@@ -307,45 +311,64 @@ components:
     Usuario:
       type: "object"
       required:
+        - id_usuario
         - nombre_usuario
+        - nombre_completo
+        - email
         - password
         - rol
       properties:
         id_usuario:
           type: "integer"
           readOnly: true
+          example: 2
+        nombre_completo: 
+          type: "string"
+          example: "Juan Pérez"
         nombre_usuario: 
           type: "string"
+          example: jperez
         password: 
           type: "string"
-        nombre_completo:
+          example: "12345678"
+        email:
           type: "string"
+          example: juan@perez.com
         rol:
           type: "string"
           enum: 
             - administrador
-            - cliente
-            - trabajador    
-        usuario: 
-          type: "string"
+            - usuario
     Producto:
       type: "object"
       required:
+        - id_producto
         - nombre
         - precio
       properties:
-        id_pedido:
+        id_producto:
           type: "integer"
-          readOnly: true   
+          readOnly: true
+          example: 1
+        description:
+          type: "string"
+          example: "Descripción del producto"   
         nombre: 
           type: "string"
+          example: "Producto de ejemplo"
         precio: 
           type: "integer"
+          example: 100
     Pedido:
       type: "object"
       required:
-        - productos
-        - usuario
+        - id_pedido
+        - estado
+        - hora 
+        - pago_via
+        - pago_monto
+        - observaciones
+        - id_usuario
       properties:
         estado:
           type: "string"
@@ -359,36 +382,46 @@ components:
         id_pedido:
           type: "integer"
           readOnly: true
+          example: 3
         hora:
           type: "string"
           format: "date"
+          example: "2021-03-01 09:20:20"
         pago_via:
           type: "string"
           enum: 
           - efectivo
           - tarjeta
         pago_monto:
-          type: "integer"         
-        usuario: 
+          type: "integer" 
+          example: 1000        
+        id_usuario: 
           type: "string"
-        productos: 
-          type: "array"
+          example: 3
+        observaciones:
+          type: "string"
+          example: "Enviar servilletas extra"
     ProductoPedido:
       type: "object"
       required:
+        - id_detallePedidos
         - id_producto
         - id_pedido
         - cantidad
       properties:
-        id_pedidoProducto:
+        id_detallePedidos:
           type: "integer"
-          readOnly: true   
+          readOnly: true 
+          example: 1  
         id_producto:
           type: "integer"
+          example: 2
         id_pedido:
           type: "integer"
+          example: 30
         cantidad: 
           type: "integer"
+          example: 5
 
       
   
