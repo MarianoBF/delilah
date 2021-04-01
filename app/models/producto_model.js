@@ -9,11 +9,10 @@ const Producto = function (producto) {
 Producto.create = (newProducto, result) => {
   sql.query("INSERT INTO productos SET ?", newProducto, (err, res) => {
     if (err) {
-      console.log("error: ", err);
+      console.log(err);
       result(err, null);
       return;
     }
-    console.log("producto cargado: ", { id: res.insertId, ...newProducto });
     result(null, { id: res.insertId, ...newProducto });
   });
 };
@@ -21,11 +20,10 @@ Producto.create = (newProducto, result) => {
 Producto.getAll = (result) => {
   sql.query("SELECT * FROM productos", (err, res) => {
     if (err) {
-      console.log("error: ", err);
+      console.log(err);
       result(null, err);
       return;
     }
-    console.log("productos :", res);
     result(null, res);
     return;
   });
@@ -36,11 +34,10 @@ Producto.update = (id, updateProd, result) => {
     `UPDATE productos SET nombre = '${updateProd.nombre}', precio = ${updateProd.precio}, descripcion =  '${updateProd.descripcion}'  WHERE id_producto=${id};`,
     (err, res) => {
       if (err) {
-        console.log("error: ", err);
+        console.log(err);
         result(null, err);
         return;
       }
-      console.log("productos :", res);
       result(null, res, updateProd);
       return;
     }
@@ -52,11 +49,10 @@ Producto.delete = (id, result) => {
       `DELETE FROM productos WHERE id_producto=${id};`,
       (err, res) => {
         if (err) {
-          console.log("error: ", err);
+          console.log(err);
           result(null, err);
           return;
         }
-        console.log("productos :", res);
         result(`Producto ${id} borrado`);
         return;
       }

@@ -10,7 +10,7 @@ module.exports = app => {
     
     router.post("/pedido", pedidos.create);
 
-    router.put("/pedido/:id_pedido", pedidos.update);
+    router.patch("/pedido/:id_pedido", pedidos.update);
 
     router.delete("/pedido/:id_pedido", pedidos.delete);
 

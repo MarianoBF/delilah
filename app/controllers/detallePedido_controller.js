@@ -1,5 +1,5 @@
 const DetallePedido = require("../models/detallePedido_model.js");
-const Pedido = require("../models/Pedido_model.js");
+const Pedido = require("../models/pedido_model.js");
 
 exports.create = (req, res) => {
   try {
@@ -29,7 +29,7 @@ exports.create = (req, res) => {
           }
         }
       });
-    } else if (validacion.rol === "Administrador") {
+    } else if (validacion.rol === "administrador") {
       const detallePedido = new DetallePedido({
         id_pedido: req.body.id_pedido,
         id_producto: req.body.id_producto,
@@ -76,7 +76,7 @@ exports.findAll = (req, res) => {
           }
         }
       });
-    } else if (validacion.rol === "Administrador") {
+    } else if (validacion.rol === "administrador") {
       const id = req.query.id_pedido;
       DetallePedido.getAll(id, (err, data) => {
         if (err) {
@@ -98,7 +98,7 @@ exports.findAll = (req, res) => {
 exports.update = (req, res) => {
   try {
     const validacion = chequearToken(req.headers["x-access-token"]);
-    if (validacion.rol === "Administrador") {
+    if (validacion.rol === "administrador") {
       const detallePedido = new DetallePedido({
         id_pedido: req.body.id_pedido,
         id_producto: req.body.id_producto,
@@ -125,7 +125,7 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
   try {
     const validacion = chequearToken(req.headers["x-access-token"]);
-    if (validacion.rol === "Administrador") {
+    if (validacion.rol === "administrador") {
       const id = req.params.id_detallePedido;
       DetallePedido.delete(id, (err, data) => {
         if (err) {

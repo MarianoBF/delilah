@@ -1,21 +1,19 @@
 USE DelilahTestdb;
 
-INSERT INTO usuarios VALUES (1, 'Adminprueba1', 'prueba@prueba.com', '$2a$08$A98dvYRirtpjWyhGTygzXOhy0l1Cwk.jgwfHdNE3NvblzSdJxjePe', "Administrador", "Usuario de Prueba1");
-INSERT INTO usuarios VALUES (2, 'prueba2', 'prueba@prueba.com', '$2a$08$A98dvYRirtpjWyhGTygzXOhy0l1Cwk.jgwfHdNE3NvblzSdJxjePe', "Cliente", "Usuario de Prueba2");
-INSERT INTO usuarios VALUES (3, 'prueba3', 'prueba@prueba.com', '$2a$08$A98dvYRirtpjWyhGTygzXOhy0l1Cwk.jgwfHdNE3NvblzSdJxjePe', "Cliente", "Usuario de Prueba3");
+INSERT INTO usuarios VALUES (1, 'Adminprueba1', 'prueba@prueba.com', '$2a$08$A98dvYRirtpjWyhGTygzXOhy0l1Cwk.jgwfHdNE3NvblzSdJxjePe', "administrador", "Usuario de Prueba1");
+INSERT INTO usuarios VALUES (2, 'Usuarioprueba2', 'prueba@prueba.com', '$2a$08$A98dvYRirtpjWyhGTygzXOhy0l1Cwk.jgwfHdNE3NvblzSdJxjePe', "usuario", "Usuario de Prueba2");
+INSERT INTO usuarios VALUES (3, 'Usuarioprueba3', 'prueba@prueba.com', '$2a$08$A98dvYRirtpjWyhGTygzXOhy0l1Cwk.jgwfHdNE3NvblzSdJxjePe', "usuario", "Usuario de Prueba3");
 
-INSERT INTO productos VALUES (1, 'prod_prueba1', 'Un producto de prueba1', 100);
-INSERT INTO productos VALUES (2, 'prod_prueba2', 'Un producto de prueba1', 300);
-INSERT INTO productos VALUES (3, 'prod_prueba3', 'Un producto de prueba1', 100.50);
-INSERT INTO productos VALUES (4, 'prod_prueba4', 'Un producto de prueba1', 200);
-INSERT INTO productos VALUES (5, 'prod_prueba5', 'Un producto de prueba1', 450);
+INSERT INTO productos VALUES (1, 'tostado', 'Un producto de prueba1', 100);
+INSERT INTO productos VALUES (2, 'hamburguesa', 'Un producto de prueba2', 300);
+INSERT INTO productos VALUES (3, 'tostado2', 'Un producto de prueba3', 100.50);
+INSERT INTO productos VALUES (4, 'tostado especial', 'Un producto de prueba4', 200);
+INSERT INTO productos VALUES (5, 'milanesa', 'Un producto de prueba5', 450);
 
 INSERT INTO pedidos VALUES (1, 'pendiente', '2021-03-01 09:20:20', 'tarjeta', 1050, "", 2);
 INSERT INTO pedidos VALUES (2, 'en camino', '2021-03-01 09:20:20', 'tarjeta', 2902, "Enviar servilletas extra", 2);
 INSERT INTO pedidos VALUES (3, 'cancelado', '2021-03-05 09:20:20', 'efectivo', 802, "", 2);
 INSERT INTO pedidos VALUES (4, 'en camino', '2021-03-05 09:20:20', 'tarjeta', 2900, "", 3);
-
-
 
 INSERT INTO detallePedidos VALUES (2, 1, 2, 1);
 INSERT INTO detallePedidos VALUES (1, 1, 1, 3);

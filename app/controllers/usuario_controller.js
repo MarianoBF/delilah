@@ -73,7 +73,7 @@ exports.login = (req, res) => {
 exports.findAll = (req, res) => {
   try {
     const validacion = chequearToken(req.headers["x-access-token"]);
-    if (validacion.rol === "Administrador") {
+    if (validacion.rol === "administrador") {
       Usuario.getAll((err, data) => {
         if (err) {
           res.status(500).send("Error al procesar");
@@ -95,14 +95,12 @@ exports.update = (req, res) => {
   try {
     const validacion = chequearToken(req.headers["x-access-token"]);
     if (
-      validacion.rol === "Administrador" ||
-      validacion.nombre_usuario === req.body.nombre_usuario // Admin puede modificar todos, o cada usuario sus propios datos
+      validacion.nombre_usuario === req.body.nombre_usuario // Admin puede modificar todos, o cada usuario sus propios datos excepto rol
     ) {
       const usuario = new Usuario({
         nombre_usuario: req.body.nombre_usuario,
         password: req.body.password,
         nombre_completo: req.body.nombre_completo,
-        rol: req.body.rol,
       });
       const id = req.params.id_usuario;
       Usuario.update(id, usuario, (err, data) => {
@@ -112,6 +110,25 @@ exports.update = (req, res) => {
           res.send(data);
         }
       });
+    } else if (validacion.rol === "administrador") {
+      if (rol === "usuario" || rol === "administrador") {
+        const usuario = new Usuario({
+          nombre_usuario: req.body.nombre_usuario,
+          password: req.body.password,
+          nombre_completo: req.body.nombre_completo,
+          rol: req.body.rol,
+        });
+        const id = req.params.id_usuario;
+        Usuario.update(id, usuario, (err, data) => {
+          if (err) {
+            res.status(500).send("Error al procesar");
+          } else {
+            res.send(data);
+          }
+        });
+      } else {
+        res.status(400).send("Rol no válido");
+      }
     } else if (validacion.resultado === "Autorizado") {
       res.status(403).send("No está autorizado a editar ese usuario");
     } else {
@@ -125,7 +142,7 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
   try {
     const validacion = chequearToken(req.headers["x-access-token"]);
-    if (validacion.rol === "Administrador") {
+    if (validacion.rol === "administrador") {
       const id = req.params.id_usuario;
       Usuario.delete(id, (err, data) => {
         if (err) {

@@ -10,11 +10,10 @@ const Usuario = function(usuario) {
 Usuario.create = (newUsuario, result) => {
     sql.query("INSERT INTO usuarios SET ?", newUsuario, (err, res) => {
         if (err) {
-            console.log("error: ", err);
-            result(err, null);
+          console.log(err);
+          result(err, null);
             return;
         }
-        console.log("Usuario cargado: ", {id: res.insertId, ...newUsuario});
         result(null, {id: res.insertId, ...newUsuario})
     });
 };
@@ -23,11 +22,10 @@ Usuario.create = (newUsuario, result) => {
 Usuario.getAll = result => {
     sql.query("SELECT * FROM usuarios", (err, res) => {
         if (err) {
-            console.log("error: ", err);
-            result(null, err);
+          console.log(err);
+          result(null, err);
             return
         }
-        console.log("Usuarios :", res);
         result(null, res)
         return
     });
@@ -38,11 +36,10 @@ Usuario.update = (id, updateUsuario, result) => {
       `UPDATE usuarios SET nombre_usuario = '${updateUsuario.nombre_usuario}', password = '${updateUsuario.password}', rol =  '${updateUsuario.rol}', nombre_completo = '${updateUsuario.nombre_completo}'  WHERE id_usuario=${id};`,
       (err, res) => {
         if (err) {
-          console.log("error: ", err);
+          console.log(err);
           result(null, err);
           return;
         }
-        console.log("productos :", res);
         result(null, res, updateUsuario);
         return;
       }
@@ -54,7 +51,7 @@ Usuario.update = (id, updateUsuario, result) => {
         `DELETE FROM usuarios WHERE id_usuario=${id};`,
         (err, res) => {
           if (err) {
-            console.log("error: ", err);
+            console.log(err);
             result(null, err);
             return;
           }
@@ -67,11 +64,10 @@ Usuario.update = (id, updateUsuario, result) => {
     Usuario.get = (usuario, result) => {
       sql.query("SELECT * FROM usuarios WHERE nombre_usuario='"+usuario.nombre_usuario+"';", (err, res) => {
         if (err) {
-            console.log("error: ", err);
-            result(null, err);
+          console.log(err);
+          result(null, err);
             return
         }
-        console.log("Usuarios :", res);
         result(null, res)
         return
     });

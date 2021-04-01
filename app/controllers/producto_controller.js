@@ -4,7 +4,7 @@ const chequearToken = require("../middleware/auth");
 exports.create = (req, res) => {
   try {
   const validacion = chequearToken(req.headers["x-access-token"]);
-  if (validacion.rol === "Administrador") {
+  if (validacion.rol === "administrador") {
     const producto = new Producto({
       nombre: req.body.nombre,
       descripcion: req.body.descripcion,
@@ -47,7 +47,7 @@ exports.findAll = (req, res) => {
 exports.update = (req, res) => {
   try {
   const validacion = chequearToken(req.headers["x-access-token"]);
-  if (validacion.rol === "Administrador") {
+  if (validacion.rol === "administrador") {
     const producto = new Producto({
       nombre: req.body.nombre,
       descripcion: req.body.descripcion,
@@ -73,7 +73,7 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
   try {
   const validacion = chequearToken(req.headers["x-access-token"]);
-  if (validacion.rol === "Administrador") {
+  if (validacion.rol === "administrador") {
     const id = req.params.id_producto;
     Producto.delete(id, (err, data) => {
       if (err) {

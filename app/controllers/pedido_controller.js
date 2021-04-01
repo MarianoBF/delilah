@@ -39,7 +39,7 @@ exports.create = (req, res) => {
 exports.findAll = (req, res) => {
   try {
     const validacion = chequearToken(req.headers["x-access-token"]);
-    if (validacion.rol === "Administrador") {
+    if (validacion.rol === "administrador") {
       Pedido.getAll((err, data) => {
         if (err) {
           res.status(500).send("Error al procesar");
@@ -75,11 +75,13 @@ exports.findOne = (req, res) => {
       Pedido.getOne(validacion.id_usuario, id, (err, data) => {
         if (err) {
           res.status(500).send("Error al procesar");
-        } else {
+        } else if (data.id_usuario !== validacion.id_usuario) {
+          res.status(403).send("No tiene permisos para ver ese pedido");
+       } else {
           res.send(data);
         }
       });
-    } else if (validacion.rol === "Administrador") {
+    } else if (validacion.rol === "administrador") {
       const id = req.params.id_pedido;
       Pedido.getOneAdmin(id, (err, data) => {
         if (err) {
@@ -101,7 +103,7 @@ exports.findOne = (req, res) => {
 exports.update = (req, res) => {
   try {
     const validacion = chequearToken(req.headers["x-access-token"]);
-    if (validacion.rol === "Administrador") {
+    if (validacion.rol === "administrador") {
       if (ESTADOSPOSIBLES.includes(req.body.estado.toLowerCase())) {
         const pedido = new Pedido({
           //solo se puede actualizar estado según requerimientos
@@ -131,7 +133,7 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
   try {
     const validacion = chequearToken(req.headers["x-access-token"]);
-    if (validacion.rol === "Administrador") {
+    if (validacion.rol === "administrador") {
       const id = req.params.id_pedido;
       Pedido.delete(id, (err, data) => {
         if (err) {
