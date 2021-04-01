@@ -58,13 +58,16 @@ exports.findAll = (req, res) => {
   }
 };
 
-exports.update = (req, res) => {
+exports.update = (req, res) => {  ///********************* */
+  if (isNaN(+req.body.cantidad_producto)) {
+    console.log("aa")
+  }
+  const validacion = chequearToken(req.headers["x-access-token"]);
   if (
     validacion.resultado === "Autorizado" &&
     validacion.id_usuario === +req.body.id_usuario
-  ) {
-    const detallePedido = new DetallePedido({
-      id_pedido: req.body.id_pedido,
+  ) { 
+    const detallePedido = new DetallePedido({ //Sólo se puede modificar producto o cantidad, no el pedido al que enlaza.
       id_producto: req.body.id_producto,
       cantidad_producto: req.body.cantidad_producto,
     });
