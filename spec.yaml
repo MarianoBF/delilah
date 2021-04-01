@@ -5,7 +5,171 @@ info:
   description: "La api de un sistema de gestión de pedidos de comida"
   contact: 
     name: Mariano Fernández
+servers:
+  - url: /api/ 
+
 paths:
+  /productos:
+    get:
+      summary: "Listar productos"
+      tags: 
+        - "Productos"
+      parameters:
+        - $ref: '#components/parameters/AccessToken'
+      responses: 
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items: 
+                  $ref: "#components/schemas/Producto"
+        "401":
+          $ref: "#components/responses/SinAcceso"
+        "500":
+          $ref: "#components/responses/ErrorServidor"         
+  /producto:
+    post:
+      tags: 
+        - "Productos"
+      summary: "Cargar un nuevo producto"
+      parameters:
+        - name: Producto
+          in: path
+          description: "Los detalles del producto"
+          required: true
+          schema:
+            type: object
+      responses:
+        "200":
+          description: "Todo OK"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Producto'
+        "401":
+          $ref: "#components/responses/SinAcceso"
+        "403":
+          $ref: "#components/responses/NoAutorizado"
+        "500":
+          $ref: "#components/responses/ErrorServidor"
+  /producto/{id_producto}:
+    put:
+      summary: "Modificar Producto por id"
+      tags: 
+        - "Productos"
+      parameters:
+        - name: "Producto"
+          required: true
+          in: path
+          schema:
+            type: "object"
+            $ref: '#/components/schemas/Producto'
+      responses:
+        "200":
+          description: "OK"
+          content: 
+            application/json:
+              schema:
+                type: "object" 
+                $ref: '#/components/schemas/Producto'
+        "401":
+          $ref: "#components/responses/SinAcceso"
+        "403":
+          $ref: "#components/responses/NoAutorizado"
+        "500":
+          $ref: "#components/responses/ErrorServidor"
+    delete:
+      summary: "Borrar Producto"
+      tags: 
+        - "Productos"
+      responses: 
+        "200":
+          description: "OK"
+        "401":
+          $ref: "#components/responses/SinAcceso"
+        "403":
+          $ref: "#components/responses/NoAutorizado"
+        "500":
+          $ref: "#components/responses/ErrorServidor"
+
+
+
+  /usuarios:
+    get:
+      summary: "Acceso a listado de Usuarios"
+      tags: 
+        - "Usuarios"
+      responses: 
+        "200":
+          description: "Recibir OK los usuarios existentes"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items: 
+                  $ref: "#components/schemas/Usuario"
+  /usuario/login:
+    post:
+      summary: "Login de Usuarios"
+      tags: 
+        - "Usuarios"
+      responses: 
+        "200":
+          description: "Login OK"
+    
+  /usuario/crear:
+    post:
+      tags: 
+        - "Usuarios"
+      summary: "Cargar un usuario"
+      parameters:
+        - name: Usuario
+          in: path
+          description: "Los detalles del usuario"
+          required: true
+          schema:
+            type: object
+      responses:
+        "200":
+          description: "Todo OK"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Usuario'
+
+  /usuario/{id_usuario}:
+    put:
+      summary: "Modificar Usuario por id"
+      tags: 
+        - "Usuarios"
+      parameters:
+        - name: "Usuario"
+          required: true
+          in: path
+          schema:
+            type: "object"
+            $ref: '#/components/schemas/Usuario'
+      responses:
+        "200":
+          description: "OK"
+          content: 
+            application/json:
+              schema:
+                type: "object" 
+                $ref: '#/components/schemas/Usuario'
+        "404":
+          description: "Falló"
+    delete:
+      summary: "Borrar Usuario"
+      tags: 
+        - "Usuarios"
+      responses: 
+        "200":
+          description: "OK"
+        "404":
+          description: "Problemassss"
 
   /pedidos:
     get:
@@ -14,13 +178,15 @@ paths:
         - "Pedidos"
       responses: 
         "200":
-          description: "Recibir OK los pedidos existentes"
+          description: "OK"
           content:
             application/json:
               schema:
                 type: "array"
                 items: 
                   $ref: "#components/schemas/Pedido"
+        "403":
+          description: "No autorizado a listar pedidos"
           
   /pedido:
     post:
@@ -61,7 +227,7 @@ paths:
               schema:
                 type: "object" 
                 $ref: '#/components/schemas/Pedido'
-        404:
+        "404":
           description: "Falló"
     put:
       summary: "Modificar algun pedido por id (sólo el estado)"
@@ -82,156 +248,16 @@ paths:
               schema:
                 type: "object" 
                 $ref: '#/components/schemas/Pedido'
-        404:
+        "404":
           description: "Falló"
     delete:
       summary: "Borrar Pedido"
       tags: 
         - "Pedidos"
       responses: 
-        200:
-          description: "OK"
-        404:
-          description: "Problemassss"
-
-
-  /usuarios:
-    get:
-      summary: "Acceso a listado de Usuarios"
-      tags: 
-        - "Usuarios"
-      responses: 
-        "200":
-          description: "Recibir OK los usuarios existentes"
-          content:
-            application/json:
-              schema:
-                type: "array"
-                items: 
-                  $ref: "#components/schemas/Usuario"
-          
-  /usuario:
-    post:
-      tags: 
-        - "Usuarios"
-      summary: "Cargar un usuario"
-      parameters:
-        - name: Usuario
-          in: path
-          description: "Los detalles del usuario"
-          required: true
-          schema:
-            type: object
-      responses:
-        "200":
-          description: "Todo OK"
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Usuario'
-
-  /usuario/{id_usuario}:
-    put:
-      summary: "Modificar Usuario por id"
-      tags: 
-        - "Usuarios"
-      parameters:
-        - name: "Usuario"
-          required: true
-          in: path
-          schema:
-            type: "object"
-            $ref: '#/components/schemas/Usuario'
-      responses:
         "200":
           description: "OK"
-          content: 
-            application/json:
-              schema:
-                type: "object" 
-                $ref: '#/components/schemas/Usuario'
-        404:
-          description: "Falló"
-    delete:
-      summary: "Borrar Usuario"
-      tags: 
-        - "Usuarios"
-      responses: 
-        200:
-          description: "OK"
-        404:
-          description: "Problemassss"
-
-              
-  /productos:
-    get:
-      summary: "Listar productos"
-      tags: 
-        - "Productos"
-      responses: 
-        200:
-          description: "Recibir los productos existentes"
-          content:
-            application/json:
-              schema:
-                type: "array"
-                items: 
-                  $ref: "#components/schemas/Producto"
-        403:
-          description: "No autorizado"
-        500:
-          description: "Internal server error"             
-          
-  /producto:
-    post:
-      tags: 
-        - "Productos"
-      summary: "Cargar un nuevo producto"
-      parameters:
-        - name: Producto
-          in: path
-          description: "Los detalles del producto"
-          required: true
-          schema:
-            type: object
-      responses:
-        "200":
-          description: "Todo OK"
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Producto'
-
-  /producto/{id_producto}:
-    put:
-      summary: "Modificar Producto por id"
-      tags: 
-        - "Productos"
-      parameters:
-        - name: "Producto"
-          required: true
-          in: path
-          schema:
-            type: "object"
-            $ref: '#/components/schemas/Producto'
-      responses:
-        "200":
-          description: "OK"
-          content: 
-            application/json:
-              schema:
-                type: "object" 
-                $ref: '#/components/schemas/Producto'
-        404:
-          description: "Falló"
-    delete:
-      summary: "Borrar Producto"
-      tags: 
-        - "Productos"
-      responses: 
-        200:
-          description: "OK"
-        404:
+        "404":
           description: "Problemassss"
 
 
@@ -271,7 +297,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/PedidoProducto'
 
-  /detallePedido/{id_PedidoProd}:
+  /detallePedido/{id_detallePedido}:
     put:
       summary: "Modificar Producto en Pedido por id del pedido_prod"
       tags: 
@@ -291,16 +317,16 @@ paths:
               schema:
                 type: "object" 
                 $ref: '#/components/schemas/PedidoProducto'
-        404:
+        "404":
           description: "Falló"
     delete:
       summary: "Borrar Producto en Pedido"
       tags: 
         - "Productos por Pedido"
       responses: 
-        200:
+        "200":
           description: "OK"
-        404:
+        "404":
           description: "Problemassss"
 
 
@@ -321,7 +347,7 @@ components:
         id_usuario:
           type: "integer"
           readOnly: true
-          example: 2
+          example: "2"
         nombre_completo: 
           type: "string"
           example: "Juan Pérez"
@@ -349,7 +375,7 @@ components:
         id_producto:
           type: "integer"
           readOnly: true
-          example: 1
+          example: "1"
         description:
           type: "string"
           example: "Descripción del producto"   
@@ -358,7 +384,7 @@ components:
           example: "Producto de ejemplo"
         precio: 
           type: "integer"
-          example: 100
+          example: "100"
     Pedido:
       type: "object"
       required:
@@ -382,7 +408,7 @@ components:
         id_pedido:
           type: "integer"
           readOnly: true
-          example: 3
+          example: "3"
         hora:
           type: "string"
           format: "date"
@@ -394,34 +420,49 @@ components:
           - tarjeta
         pago_monto:
           type: "integer" 
-          example: 1000        
+          example: "1000"        
         id_usuario: 
           type: "string"
-          example: 3
+          example: "3"
         observaciones:
           type: "string"
           example: "Enviar servilletas extra"
     ProductoPedido:
       type: "object"
       required:
-        - id_detallePedidos
+        - id_detallePedido
         - id_producto
         - id_pedido
         - cantidad
       properties:
-        id_detallePedidos:
+        id_detallePedido:
           type: "integer"
           readOnly: true 
-          example: 1  
+          example: "1"  
         id_producto:
           type: "integer"
-          example: 2
+          example: "2"
         id_pedido:
           type: "integer"
-          example: 30
+          example: "30"
         cantidad: 
           type: "integer"
-          example: 5
+          example: "5"
 
-      
-  
+  responses:
+    SinAcceso:
+      description: El token de acceso no es válido o está vacío.
+    NoAutorizado:
+      description: No está autorizado a realizar la operación.
+    ErrorServidor:
+      description: Se produjo un error al procesar la operación, reintente.
+    
+
+  parameters:
+    AccessToken:
+      name: "x-access-token"
+      in: header
+      description: Access Token.
+      required: true
+      schema:
+        type: string

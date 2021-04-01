@@ -57,7 +57,7 @@ exports.findAll = (req, res) => {
       }
     });
   } else {
-    res.send("No autorizado");
+    res.status(401).send("No autorizado");
   }
 };
 

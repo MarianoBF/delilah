@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS pedidos (
 ) DEFAULT CHARSET=UTF8;
 
 CREATE TABLE IF NOT EXISTS detallePedidos (
-  id_detallePedidos INT(10) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  id_detallePedido INT(10) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   id_pedido INT(10) NOT NULL,
   id_producto INT(10) NOT NULL,
   cantidad_producto INT(10) NOT NULL,
