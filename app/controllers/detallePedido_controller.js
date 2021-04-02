@@ -4,17 +4,18 @@ const Pedido = require("../models/pedido_model.js");
 exports.create = (req, res) => {
   try {
     const validacion = chequearToken(req.headers["x-access-token"]);
-    if (validacion.id_usuario === +req.body.id_usuario) {
+    if (validacion.rol === "usuario") {
       const detallePedido = new DetallePedido({
-        id_pedido: req.body.id_pedido,
-        id_producto: req.body.id_producto,
-        cantidad_producto: req.body.cantidad_producto,
+        id_pedido: +req.params.id_pedido,
+        id_producto: +req.body.id_producto,
+        cantidad_producto: +req.body.cantidad_producto,
       });
-      Pedido.getOne(validacion.id_usuario, id_pedido, (err, data) => {
+      Pedido.getOne(req.params.id_pedido, (err, data) => {
+        console.log(data)
         if (err) {
           res.status(500).send("Error al procesar");
         } else {
-          if (data.id_usuario !== validacion.id_usuario) {
+          if (+data[0].id_usuario !== +validacion.id_usuario) {
             res
               .status(403)
               .send("No tiene permisos para agregar en ese pedido");
@@ -31,13 +32,13 @@ exports.create = (req, res) => {
       });
     } else if (validacion.rol === "administrador") {
       const detallePedido = new DetallePedido({
-        id_pedido: req.body.id_pedido,
+        id_pedido: req.params.id_pedido,
         id_producto: req.body.id_producto,
         cantidad_producto: req.body.cantidad_producto,
       });
       DetallePedido.create(detallePedido, (err, data) => {
         if (err) {
-          res.status(500).send(err);
+          res.status(500).send(("Error al procesar"));
         } else {
           res.send(data);
         }
@@ -55,38 +56,57 @@ exports.create = (req, res) => {
 exports.findAll = (req, res) => {
   try {
     const validacion = chequearToken(req.headers["x-access-token"]);
-    if (validacion.id_usuario === +req.body.id_usuario) {
-      Pedido.getOne(validacion.id_usuario, id_pedido, (err, data) => {
+    if (validacion.rol === "administrador") {
+      DetallePedido.getAll((err, data) => {
+        if (err) {
+          res.status(500).send(("Error al procesar"));
+        } else {
+          res.send(data);
+        }
+      });
+    } else if (validacion.resultado === "Autorizado") {
+      res.status(403).send("No tiene permisos para listar todo");
+    } else {
+      res.status(401).send("Token inválido");
+    }
+  } catch {
+    res.status(400).send("Hubo un problema, revise los datos y reintente");
+  }
+};
+
+exports.findOne = (req, res) => {
+  try {
+    const validacion = chequearToken(req.headers["x-access-token"]);
+    const id = req.params.id_pedido;
+    if (validacion.rol === "usuario") {
+      Pedido.getOne(id, (err, data) => {
         if (err) {
           res.status(500).send("Error al procesar");
         } else {
-          if (data.id_usuario !== validacion.id_usuario) {
+          if (+data[0].id_usuario !== +validacion.id_usuario) {
             res
               .status(403)
-              .send("No tiene permisos para agregar en ese pedido");
+              .send("No tiene permisos para listar este pedido");
           } else {
-            const id = req.query.id_pedido;
-            DetallePedido.getAll(id, (err, data) => {
+            DetallePedido.getAllFromOne(id, (err, data2) => {
               if (err) {
                 res.status(500).send("Error al procesar");
               } else {
-                res.send(data);
+                res.send(data2);
               }
             });
           }
         }
       });
     } else if (validacion.rol === "administrador") {
-      const id = req.query.id_pedido;
-      DetallePedido.getAll(id, (err, data) => {
+      const id = req.params.id_pedido;
+      DetallePedido.getAllFromOne(id, (err, data) => {
         if (err) {
-          res.status(500).send(err);
+          res.status(500).send(("Error al procesar"));
         } else {
           res.send(data);
         }
       });
-    } else if (validacion.resultado === "Autorizado") {
-      res.status(403).send("No tiene permisos para agregar en ese pedido");
     } else {
       res.status(401).send("Token inválido");
     }
@@ -100,7 +120,6 @@ exports.update = (req, res) => {
     const validacion = chequearToken(req.headers["x-access-token"]);
     if (validacion.rol === "administrador") {
       const detallePedido = new DetallePedido({
-        id_pedido: req.body.id_pedido,
         id_producto: req.body.id_producto,
         cantidad_producto: req.body.cantidad_producto,
       });
@@ -131,7 +150,7 @@ exports.delete = (req, res) => {
         if (err) {
           res.status(500).send("Error al procesar");
         } else {
-          res.send(data);
+          res.send("Borrado OK");
         }
       });
     } else if (validacion.resultado === "Autorizado") {

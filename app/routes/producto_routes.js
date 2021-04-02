@@ -13,6 +13,6 @@ module.exports = app => {
     router.delete("/producto/:id_producto", productos.delete)
     
 
-    app.use("/api/", router)
+    app.use("/api/v1/", router)
 
     }

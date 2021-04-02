@@ -10,16 +10,14 @@ DetallePedido.create = (newDetallePedido, result) => {
     sql.query("INSERT INTO detallePedidos SET ?", newDetallePedido, (err, res) => {
         if (err) {
             console.log(err);
-            result(err, null);
+            result(null, err);
             return;
         }
         result(null, {id: res.insertId, ...newDetallePedido})
     });
 };
 
-//Devolver todos los productos bajo el pedido
-
-DetallePedido.getAll = (id, result) => {
+DetallePedido.getAllFromOne = (id, result) => {
     sql.query("SELECT * FROM pedidos AS pe INNER JOIN detallePedidos AS dp ON pe.id_pedido = dp.id_pedido WHERE pe.id_pedido = "+id+";", (err, res) => {
         if (err) {
             console.log(err);
@@ -31,17 +29,28 @@ DetallePedido.getAll = (id, result) => {
     })
 };
 
+DetallePedido.getAll = (result) => {
+  sql.query("SELECT * FROM pedidos AS pe INNER JOIN detallePedidos AS dp ON pe.id_pedido = dp.id_pedido", (err, res) => {
+    if (err) {
+      console.log(err);
+      result(null, err);
+      return;
+    }
+    result(null, res);
+    return;
+  });
+};
 
 DetallePedido.update = (id, detallePedido, result) => {
     sql.query(
-      `UPDATE detallePedidos SET id_pedido = ${detallePedido.id_pedido}, id_producto = ${detallePedido.id_producto}, cantidad_producto =  ${detallePedido.cantidad_producto}  WHERE detalle_pedido_id=${id};`,
+      `UPDATE detallePedidos SET id_producto = ${detallePedido.id_producto}, cantidad_producto =  ${detallePedido.cantidad_producto}  WHERE id_detallePedido=${id};`,
       (err, res) => {
         if (err) {
           console.log(err);
           result(null, err);
           return;
         }
-        result(null, res, detallePedido);
+        result(null, {id_detallePedido: +id, ...detallePedido});
         return;
       }
     );
@@ -56,7 +65,7 @@ DetallePedido.update = (id, detallePedido, result) => {
             result(null, err);
             return;
           }
-          result(`Pedido Producto ${id} borrado`);
+          result(null, res);
           return;
         }
       );

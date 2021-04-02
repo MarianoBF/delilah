@@ -19,7 +19,8 @@ exports.create = (req, res) => {
         hora: req.body.hora,
         pago_via: req.body.pago_via,
         pago_monto: req.body.pago_monto,
-        id_usuario: req.body.id_usuario,
+        id_usuario: validacion.id_usuario,
+        observaciones: req.body.observaciones,
       });
       Pedido.create(pedido, (err, data) => {
         if (err) {
@@ -47,7 +48,7 @@ exports.findAll = (req, res) => {
           res.send(data);
         }
       });
-    } else if (validacion.nombre_usuario === req.body.nombre_usuario) {
+    } else if (validacion.rol === "usuario") {
       Pedido.getAllFromOne(validacion.id_usuario, (err, data) => {
         if (err) {
           res.status(500).send("Error al procesar");
@@ -67,50 +68,16 @@ exports.findAll = (req, res) => {
   }
 };
 
-exports.findOne = (req, res) => {
-  try {
-    const validacion = chequearToken(req.headers["x-access-token"]);
-    if (validacion.nombre_usuario === req.body.nombre_usuario) {
-      const id = req.params.id_pedido;
-      Pedido.getOne(validacion.id_usuario, id, (err, data) => {
-        if (err) {
-          res.status(500).send("Error al procesar");
-        } else if (data.id_usuario !== validacion.id_usuario) {
-          res.status(403).send("No tiene permisos para ver ese pedido");
-       } else {
-          res.send(data);
-        }
-      });
-    } else if (validacion.rol === "administrador") {
-      const id = req.params.id_pedido;
-      Pedido.getOneAdmin(id, (err, data) => {
-        if (err) {
-          res.status(500).send("Error al procesar");
-        } else {
-          res.send(data);
-        }
-      });
-    } else if (validacion.resultado === "Autorizado") {
-      res.status(403).send("No tiene permisos para ver ese pedido");
-    } else {
-      res.status(401).send("Token inválido");
-    }
-  } catch {
-    res.status(400).send("Hubo un problema, revise los datos y reintente");
-  }
-};
-
 exports.update = (req, res) => {
   try {
     const validacion = chequearToken(req.headers["x-access-token"]);
+    const id = req.params.id_pedido;
+    const estado = req.body.estado;
+    console.log(id, estado, ESTADOSPOSIBLES)
     if (validacion.rol === "administrador") {
-      if (ESTADOSPOSIBLES.includes(req.body.estado.toLowerCase())) {
-        const pedido = new Pedido({
-          //solo se puede actualizar estado según requerimientos
-          estado: req.body.estado,
-        });
-        const id = req.params.id_pedido;
-        Pedido.update(id, pedido, (err, data) => {
+      if (ESTADOSPOSIBLES.includes(estado.toLowerCase())) {
+        //solo se puede actualizar estado según requerimientos
+        Pedido.update(id, estado, (err, data) => {
           if (err) {
             res.status(500).send("Error al procesar");
           } else {
@@ -139,7 +106,7 @@ exports.delete = (req, res) => {
         if (err) {
           res.status(500).send("Error al procesar");
         } else {
-          res.send("Borrado");
+          res.send("Borrado OK");
         }
       });
     } else if (validacion.resultado === "Autorizado") {

@@ -38,7 +38,7 @@ Producto.update = (id, updateProd, result) => {
         result(null, err);
         return;
       }
-      result(null, res, updateProd);
+      result(null, {...updateProd});
       return;
     }
   );
@@ -53,7 +53,7 @@ Producto.delete = (id, result) => {
           result(null, err);
           return;
         }
-        result(`Producto ${id} borrado`);
+        result(null, res);
         return;
       }
     );

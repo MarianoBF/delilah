@@ -4,6 +4,7 @@ const Usuario = function(usuario) {
     this.nombre_usuario = usuario.nombre_usuario;
     this.password = usuario.password;
     this.nombre_completo = usuario.nombre_completo;
+    this.email = usuario.email;
     this.rol = usuario.rol
 }
 
@@ -40,7 +41,7 @@ Usuario.update = (id, updateUsuario, result) => {
           result(null, err);
           return;
         }
-        result(null, res, updateUsuario);
+        result(null, {id: id, ...updateUsuario});
         return;
       }
     );
@@ -55,7 +56,7 @@ Usuario.update = (id, updateUsuario, result) => {
             result(null, err);
             return;
           }
-          result(`Usuario ${id} borrado`);
+          result(null, `Usuario ${id} borrado`);
           return;
         }
       );

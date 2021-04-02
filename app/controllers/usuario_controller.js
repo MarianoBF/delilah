@@ -9,13 +9,14 @@ exports.create = (req, res) => {
       nombre_usuario: req.body.nombre_usuario,
       password: bcrypt.hashSync(req.body.password, 8),
       nombre_completo: req.body.nombre_completo,
-      rol: usuario, //todos los usuarios se crean como usuario simple, el Admin les debe elevar privilegios
+      email: req.body.email,
+      rol: "usuario", //todos los usuarios se crean como usuario simple, el Admin les debe elevar privilegios
     });
     Usuario.create(usuario, (err, data) => {
       if (err) {
         res.status(500).send("Error al procesar");
       } else {
-        res.send("Usuario creado!");
+        res.send(data);
       }
     });
   } catch {
@@ -94,24 +95,8 @@ exports.findAll = (req, res) => {
 exports.update = (req, res) => {
   try {
     const validacion = chequearToken(req.headers["x-access-token"]);
-    if (
-      validacion.nombre_usuario === req.body.nombre_usuario // Admin puede modificar todos, o cada usuario sus propios datos excepto rol
-    ) {
-      const usuario = new Usuario({
-        nombre_usuario: req.body.nombre_usuario,
-        password: req.body.password,
-        nombre_completo: req.body.nombre_completo,
-      });
-      const id = req.params.id_usuario;
-      Usuario.update(id, usuario, (err, data) => {
-        if (err) {
-          res.status(500).send("Error al procesar");
-        } else {
-          res.send(data);
-        }
-      });
-    } else if (validacion.rol === "administrador") {
-      if (rol === "usuario" || rol === "administrador") {
+    if (validacion.rol === "administrador") {
+      if (req.body.rol === "usuario" || req.body.rol === "administrador") {
         const usuario = new Usuario({
           nombre_usuario: req.body.nombre_usuario,
           password: req.body.password,
@@ -129,6 +114,23 @@ exports.update = (req, res) => {
       } else {
         res.status(400).send("Rol no válido");
       }
+    } else if (
+      validacion.id_usuario === +req.params.id_usuario // Admin puede modificar todos, o cada usuario sus propios datos excepto rol
+    ) {
+      const usuario = new Usuario({
+        nombre_usuario: req.body.nombre_usuario,
+        password: req.body.password,
+        nombre_completo: req.body.nombre_completo,
+        rol: "usuario",
+      });
+      const id = req.params.id_usuario;
+      Usuario.update(id, usuario, (err, data) => {
+        if (err) {
+          res.status(500).send("Error al procesar");
+        } else {
+          res.send(data);
+        }
+      });
     } else if (validacion.resultado === "Autorizado") {
       res.status(403).send("No está autorizado a editar ese usuario");
     } else {
@@ -146,9 +148,11 @@ exports.delete = (req, res) => {
       const id = req.params.id_usuario;
       Usuario.delete(id, (err, data) => {
         if (err) {
-          res.status(500).send("Error al procesar");
+          res
+            .status(500)
+            .send("Error al procesar, puede tener pedidos asociados");
         } else {
-          res.send(data);
+          res.send("Borrado OK");
         }
       });
     } else if (validacion.resultado === "Autorizado") {

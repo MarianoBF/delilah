@@ -20,7 +20,7 @@ Pedido.create = (newPedido, result) => {
 };
 
 Pedido.getAll = (result) => {
-  sql.query("SELECT * FROM pedidos AS pe INNER JOIN detallePedidos AS dp ON pe.id_pedido = dp.id_pedido", (err, res) => {
+  sql.query("SELECT * FROM pedidos", (err, res) => {
     if (err) {
       console.log(err);
       result(null, err);
@@ -32,7 +32,7 @@ Pedido.getAll = (result) => {
 };
 
 Pedido.getAllFromOne = (id, result) => {
-  sql.query(`SELECT * FROM pedidos AS pe INNER JOIN detallePedidos AS dp ON pe.id_pedido = dp.id_pedido WHERE pe.id_usuario=${id}`, (err, res) => {
+  sql.query(`SELECT * FROM pedidos WHERE id_usuario=${id}`, (err, res) => {
     if (err) {
       console.log(err);
       result(null, err);
@@ -43,19 +43,7 @@ Pedido.getAllFromOne = (id, result) => {
   });
 };
 
-Pedido.getOne = (id_usuario, id_pedido, result) => {
-  sql.query(`SELECT * FROM pedidos AS pe INNER JOIN detallePedidos AS dp ON pe.id_pedido = dp.id_pedido WHERE pe.id_usuario=${id_usuario} AND pe.id_pedido=${id_pedido};`, (err, res) => {
-    if (err) {
-      console.log(err);
-      result(null, err);
-      return;
-    }
-    result(null, res);
-    return;
-  });
-};
-
-Pedido.getOneAdmin = (id_pedido, result) => {
+Pedido.getOne = (id_pedido, result) => {
   sql.query(`SELECT * FROM pedidos AS pe INNER JOIN detallePedidos AS dp ON pe.id_pedido = dp.id_pedido WHERE pe.id_pedido=${id_pedido};`, (err, res) => {
     if (err) {
       console.log(err);
@@ -67,16 +55,16 @@ Pedido.getOneAdmin = (id_pedido, result) => {
   });
 };
 
-Pedido.update = (id, updatePedido, result) => {
+Pedido.update = (id, estado, result) => {
   sql.query(
-    `UPDATE pedidos SET estado = '${updatePedido.estado}' WHERE id_pedido=${id};`,
+    `UPDATE pedidos SET estado = '${estado}' WHERE id_pedido=${id};`,
     (err, res) => {
       if (err) {
         console.log(err);
         result(null, err);
         return;
       }
-      result(null, res, updatePedido);
+      result(null, {estado: estado});
       return;
     }
   );
@@ -89,7 +77,7 @@ Pedido.delete = (id, result) => {
       result(null, err);
       return;
     }
-    result(`Pedido ${id} borrado`);
+    result(null, res);
     return;
   });
 };

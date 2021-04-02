@@ -6,7 +6,7 @@ info:
   contact:
     name: Mariano Fernández
 servers:
-  - url: /api/
+  - url: "http://localhost:8500/api/v1/"
 
 paths:
   /productos:
@@ -147,6 +147,23 @@ paths:
       summary: "Login de Usuarios"
       tags:
         - "Usuarios"
+      requestBody:
+        description: "Nombre de usuario y password"
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              required:
+                - nombre_usuario
+                - password
+              properties:
+                nombre_usuario:
+                  type: "string"
+                  example: jperez
+                password:
+                  type: "string"
+                  example: "12345678"
       responses:
         "200":
           description: "Login OK"
@@ -155,6 +172,7 @@ paths:
               schema:
                 type: string
                 description: JWT Token
+                example: "eYhb1NiIsGciOiJIUzII..."
         "400":
           $ref: "#components/responses/DatosFaltantes"
         "500":
@@ -164,15 +182,31 @@ paths:
       summary: "Cargar un usuario"
       tags:
         - "Usuarios"
-      parameters:
-        - $ref: "#components/parameters/AccessToken"
       requestBody:
         description: "Los detalles del usuario"
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Usuario"
+              type: "object"
+              required:
+                - nombre_usuario
+                - nombre_completo
+                - email
+                - password
+              properties:
+                nombre_completo:
+                  type: "string"
+                  example: "Juan Pérez"
+                nombre_usuario:
+                  type: "string"
+                  example: jperez
+                password:
+                  type: "string"
+                  example: "12345678"
+                email:
+                  type: "string"
+                  example: juan@perez.com
       responses:
         "200":
           description: "Todo OK"
@@ -245,9 +279,11 @@ paths:
 
   /pedidos:
     get:
-      summary: "Acceso a pedidos"
+      summary: "Acceso a pedidos, devuelve todos si es admin o los propios si es usuario"
       tags:
         - "Pedidos"
+      parameters:
+        - $ref: "#components/parameters/AccessToken"
       responses:
         "200":
           description: "OK"
@@ -279,7 +315,28 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Pedido"
+              type: "object"
+              required:
+                - hora
+                - pago_via
+                - pago_monto
+                - observaciones
+              properties:
+                hora:
+                  type: "string"
+                  format: "date"
+                  example: "2021-03-01 09:20:20"
+                pago_via:
+                  type: "string"
+                  enum:
+                    - efectivo
+                    - tarjeta
+                pago_monto:
+                  type: "integer"
+                  example: "1000"
+                observaciones:
+                  type: "string"
+                  example: "Enviar servilletas extra"
       responses:
         "200":
           description: "Todo OK"
@@ -287,6 +344,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Pedido"
+
+
         "400":
           $ref: "#components/responses/DatosFaltantes"
         "403":
@@ -294,34 +353,7 @@ paths:
         "500":
           $ref: "#components/responses/ErrorServidor"
   /pedido/{id_pedido}:
-    get:
-      summary: "Listar un pedido particular"
-      tags:
-        - "Pedidos"
-      parameters:
-        - $ref: "#components/parameters/AccessToken"
-        - name: "id_pedido"
-          required: true
-          in: path
-          schema:
-            type: "integer"
-      responses:
-        "200":
-          description: "OK"
-          content:
-            application/json:
-              schema:
-                type: "object"
-                $ref: "#/components/schemas/Pedido"
-        "400":
-          $ref: "#components/responses/DatosFaltantes"
-        "401":
-          $ref: "#components/responses/SinAcceso"
-        "403":
-          $ref: "#components/responses/NoAutorizado"
-        "500":
-          $ref: "#components/responses/ErrorServidor"
-    put:
+    patch:
       summary: "Modificar algun pedido por id (sólo el estado)"
       tags:
         - "Pedidos"
@@ -333,12 +365,18 @@ paths:
           schema:
             type: "integer"
       requestBody:
-        description: "Los detalles del pedido"
+        description: "Nuevo estado"
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Pedido"
+              type: "object"
+              required:
+                - estado
+              properties:
+                estado:
+                  type: "string"
+                  example: "cancelado"     
       responses:
         "200":
           description: "OK"
@@ -380,12 +418,37 @@ paths:
 
   /detallePedidos:
     get:
-      summary: "Listar Productos por pedido"
+      summary: "Listar Productos por pedido para todos los pedidos"
       tags:
         - "Productos por Pedido"
       parameters:
         - $ref: "#components/parameters/AccessToken"
-        - name: "id_usuario"
+      responses:
+        "200":
+          description: "Recibir todos los productos de los pedidos"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#components/schemas/DetallePedido"
+        "400":
+          $ref: "#components/responses/DatosFaltantes"
+        "401":
+          $ref: "#components/responses/SinAcceso"
+        "403":
+          $ref: "#components/responses/NoAutorizado"
+        "500":
+          $ref: "#components/responses/ErrorServidor"
+
+  /detallePedido/{id_pedido}:
+    get:
+      summary: "Listar Productos de un pedido"
+      tags:
+        - "Productos por Pedido"
+      parameters:
+        - $ref: "#components/parameters/AccessToken"
+        - name: "id_pedido"
           required: true
           in: path
           schema:
@@ -407,23 +470,34 @@ paths:
           $ref: "#components/responses/NoAutorizado"
         "500":
           $ref: "#components/responses/ErrorServidor"
-
-  /detallePedido:
     post:
       tags:
         - "Productos por Pedido"
       summary: "Cargar un nuevo producto en un pedido"
       parameters:
         - $ref: "#components/parameters/AccessToken"
+        - name: "id_pedido"
+          required: true
+          in: path
+          schema:
+            type: "integer"
       requestBody:
         description: "Los detalles del producto a agregar"
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/DetallePedido"
-              name: "id_usuario"
-              type: integer
+              type: "object"
+              required:
+                - id_producto
+                - cantidad_producto
+              properties:
+                id_producto:
+                  type: "integer"
+                  example: "2"
+                cantidad_producto:
+                  type: "integer"
+                  example: "5"
       responses:
         "200":
           description: "Todo OK"
@@ -449,9 +523,26 @@ paths:
         - $ref: "#components/parameters/AccessToken"
         - name: "id_detallePedido"
           required: true
-          in: path
+          in: path 
           schema:
             type: "integer"
+      requestBody:
+        description: "Los detalles del producto a cambiar"
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              required:
+                - id_producto
+                - cantidad_producto
+              properties:
+                id_producto:
+                  type: "integer"
+                  example: "2"
+                cantidad_producto:
+                  type: "integer"
+                  example: "5"
       responses:
         "200":
           description: "OK"
@@ -492,14 +583,16 @@ paths:
           $ref: "#components/responses/ErrorServidor"
 
 tags:
-  - name: "Productos por Pedido"
-    description: "Los endpoints con este tagpermite agregar productos a un pedido en particular, listar todos los agregados a un pedido y a su vez modificar/borrar para un pedido existente"
-  - name: "Pedidos"
-    description: "En /pedido y /pedidos se crea la estructura del pedido con los datos generales. Para la carga de productos ver /detallePedido"
-  - name: "Usuarios"
-    description: "ABM de usuarios y login"
   - name: "Productos"
     description: "ABM de productos"
+  - name: "Usuarios"
+    description: "ABM de usuarios y login"
+  - name: "Pedidos"
+    description: "En /pedido y /pedidos se crea la estructura del pedido con los datos generales. Para la carga de productos ver /detallePedido"
+  - name: "Productos por Pedido"
+    description: "Los endpoints con este tag permiten agregar productos a un pedido en particular, listar todos los agregados a un pedido y a su vez modificar/borrar para un pedido existente"
+
+
 
 components:
   schemas:
@@ -532,8 +625,8 @@ components:
         rol:
           type: "string"
           enum:
-            - administrador
             - usuario
+            - administrador
     Producto:
       type: "object"
       required:
@@ -545,7 +638,7 @@ components:
           type: "integer"
           readOnly: true
           example: "1"
-        description:
+        descripcion:
           type: "string"
           example: "Descripción del producto"
         nombre:
@@ -602,7 +695,7 @@ components:
         - id_detallePedido
         - id_producto
         - id_pedido
-        - cantidad
+        - cantidad_producto
       properties:
         id_detallePedido:
           type: "integer"
@@ -614,7 +707,7 @@ components:
         id_pedido:
           type: "integer"
           example: "30"
-        cantidad:
+        cantidad_producto:
           type: "integer"
           example: "5"
 
