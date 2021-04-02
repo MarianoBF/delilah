@@ -120,7 +120,7 @@ paths:
 
   /usuarios:
     get:
-      summary: "Acceso a listado de Usuarios"
+      summary: "Acceso a listado de Usuarios si es Admin o datos propios si es usuario regular"
       tags:
         - "Usuarios"
       parameters:
