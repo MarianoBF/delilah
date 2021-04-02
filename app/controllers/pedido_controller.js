@@ -4,7 +4,7 @@ const chequearToken = require("../middleware/auth");
 const ESTADOSPOSIBLES = [
   "nuevo",
   "confirmado",
-  "preparado",
+  "preparando",
   "enviando",
   "cancelado",
   "entregado",
@@ -56,10 +56,6 @@ exports.findAll = (req, res) => {
           res.send(data);
         }
       });
-    } else if (validacion.resultado === "Autorizado") {
-      res
-        .status(403)
-        .send("No tiene permisos para ver los pedidos del usuario");
     } else {
       res.status(401).send("Token inválido");
     }

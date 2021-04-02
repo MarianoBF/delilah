@@ -5,7 +5,9 @@ const Usuario = function(usuario) {
     this.password = usuario.password;
     this.nombre_completo = usuario.nombre_completo;
     this.email = usuario.email;
-    this.rol = usuario.rol
+    this.rol = usuario.rol;
+    this.direccion = usuario.direccion;
+    this.telefono = usuario.telefono
 }
 
 Usuario.create = (newUsuario, result) => {
@@ -73,5 +75,18 @@ Usuario.update = (id, updateUsuario, result) => {
         return
     });
     };
+
+    Usuario.getAllFromOne = (id, result) => {
+      sql.query("SELECT * FROM usuarios WHERE id_usuario='"+id+"';", (err, res) => {
+        if (err) {
+          console.log(err);
+          result(null, err);
+            return
+        }
+        result(null, res)
+        return
+    });
+    };
+
 
 module.exports = Usuario;

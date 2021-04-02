@@ -200,7 +200,10 @@ paths:
                   example: "Juan Pérez"
                 nombre_usuario:
                   type: "string"
-                  example: jperez
+                  example: "jperez"
+                direcccion:
+                  type: "string"
+                  example: "Marcelo T. Alvear 1614 4°A"
                 password:
                   type: "string"
                   example: "12345678"
@@ -602,6 +605,7 @@ components:
         - id_usuario
         - nombre_usuario
         - nombre_completo
+        - direccion
         - email
         - password
         - rol
@@ -616,6 +620,9 @@ components:
         nombre_usuario:
           type: "string"
           example: jperez
+        direccion:
+          type: "string"
+          example: "Marcelo T. Alvear 1614 4°A"
         password:
           type: "string"
           example: "12345678"
@@ -663,7 +670,7 @@ components:
           enum:
             - nuevo
             - confirmado
-            - preparado
+            - preparando
             - enviando
             - cancelado
             - entregado

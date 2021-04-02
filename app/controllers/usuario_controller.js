@@ -10,6 +10,8 @@ exports.create = (req, res) => {
       password: bcrypt.hashSync(req.body.password, 8),
       nombre_completo: req.body.nombre_completo,
       email: req.body.email,
+      direccion: req.body.direccion,
+      telefono: req.body.telefono,
       rol: "usuario", //todos los usuarios se crean como usuario simple, el Admin les debe elevar privilegios
     });
     Usuario.create(usuario, (err, data) => {
@@ -82,9 +84,15 @@ exports.findAll = (req, res) => {
           res.send(data);
         }
       });
-    } else if (validacion.resultado === "Autorizado") {
-      res.status(403).send("No está autorizado a listar usuarios");
-    } else {
+    } else if (validacion.rol === "usuario") {
+      Usuario.getAllFromOne(validacion.id_usuario, (err, data) => {
+        if (err) {
+          res.status(500).send("Error al procesar");
+        } else {
+          res.send(data);
+        }
+      });
+    }  else {
       res.status(401).send("Token inválido");
     }
   } catch {
@@ -101,6 +109,8 @@ exports.update = (req, res) => {
           nombre_usuario: req.body.nombre_usuario,
           password: req.body.password,
           nombre_completo: req.body.nombre_completo,
+          direccion: req.body.direccion,
+          telefono: req.body.telefono,
           rol: req.body.rol,
         });
         const id = req.params.id_usuario;
@@ -121,6 +131,8 @@ exports.update = (req, res) => {
         nombre_usuario: req.body.nombre_usuario,
         password: req.body.password,
         nombre_completo: req.body.nombre_completo,
+        direccion: req.body.direccion,
+        telefono: req.body.telefono,
         rol: "usuario",
       });
       const id = req.params.id_usuario;
