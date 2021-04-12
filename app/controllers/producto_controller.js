@@ -12,7 +12,7 @@ exports.create = (req, res) => {
     });
     Producto.create(producto, (err, data) => {
       if (err) {
-        res.status(500).send("Error al procesar");
+        res.status(500).send("Error al procesar, posiblemente ya existe un producto con ese nombre");
       } else {
         res.send(data);
       }

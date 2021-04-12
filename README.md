@@ -9,4 +9,6 @@
 1. Para cargar la estructura de la base de datos: `mysql < initial_structure.sql -u [USERNAME] -p` 
 1. Para cargar un dataset de ejemplo: `mysql < initial_data.sql -u [USERNAME] -p`
 1. node server.js
-1. Usuario/password default administrador: adminProbando - adminProbando
+1. Usuario/password default administrador: adminProbando/adminProbando
+1. Usuario/password default usuarioC cómun: Usuarioprueba2/abcdef
+1. Documentation served on /docs

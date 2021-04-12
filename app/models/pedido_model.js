@@ -15,7 +15,7 @@ Pedido.create = (newPedido, result) => {
       result(err, null);
       return;
     }
-    result(null, { id: res.insertId, ...newPedido });
+    result(null, { id_pedido: res.insertId, ...newPedido });
   });
 };
 
@@ -44,7 +44,7 @@ Pedido.getAllFromOne = (id, result) => {
 };
 
 Pedido.getOne = (id_pedido, result) => {
-  sql.query(`SELECT * FROM pedidos AS pe INNER JOIN detallePedidos AS dp ON pe.id_pedido = dp.id_pedido WHERE pe.id_pedido=${id_pedido};`, (err, res) => {
+  sql.query(`SELECT * FROM pedidos WHERE id_pedido=${id_pedido};`, (err, res) => {
     if (err) {
       console.log(err);
       result(null, err);

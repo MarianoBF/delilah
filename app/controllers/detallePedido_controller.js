@@ -11,8 +11,10 @@ exports.create = (req, res) => {
         cantidad_producto: +req.body.cantidad_producto,
       });
       Pedido.getOne(req.params.id_pedido, (err, data) => {
-        console.log(data)
         if (err) {
+          res.status(500).send("Error al procesar");
+        }
+        if (data.length === 0) {
           res.status(500).send("Error al procesar");
         } else {
           if (+data[0].id_usuario !== +validacion.id_usuario) {
@@ -38,7 +40,7 @@ exports.create = (req, res) => {
       });
       DetallePedido.create(detallePedido, (err, data) => {
         if (err) {
-          res.status(500).send(("Error al procesar"));
+          res.status(500).send("Error al procesar");
         } else {
           res.send(data);
         }
@@ -59,7 +61,7 @@ exports.findAll = (req, res) => {
     if (validacion.rol === "administrador") {
       DetallePedido.getAll((err, data) => {
         if (err) {
-          res.status(500).send(("Error al procesar"));
+          res.status(500).send("Error al procesar");
         } else {
           res.send(data);
         }
@@ -84,9 +86,7 @@ exports.findOne = (req, res) => {
           res.status(500).send("Error al procesar");
         } else {
           if (+data[0].id_usuario !== +validacion.id_usuario) {
-            res
-              .status(403)
-              .send("No tiene permisos para listar este pedido");
+            res.status(403).send("No tiene permisos para listar este pedido");
           } else {
             DetallePedido.getAllFromOne(id, (err, data2) => {
               if (err) {
@@ -102,7 +102,7 @@ exports.findOne = (req, res) => {
       const id = req.params.id_pedido;
       DetallePedido.getAllFromOne(id, (err, data) => {
         if (err) {
-          res.status(500).send(("Error al procesar"));
+          res.status(500).send("Error al procesar");
         } else {
           res.send(data);
         }

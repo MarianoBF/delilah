@@ -179,7 +179,7 @@ paths:
           $ref: "#components/responses/ErrorServidor"
   /usuario/crear:
     post:
-      summary: "Cargar un usuario"
+      summary: "Crear un usuario"
       tags:
         - "Usuarios"
       requestBody:
@@ -201,9 +201,12 @@ paths:
                 nombre_usuario:
                   type: "string"
                   example: "jperez"
-                direcccion:
+                direccion:
                   type: "string"
                   example: "Marcelo T. Alvear 1614 4°A"
+                telefono:
+                  type: "string"
+                  example: "0303456 ext 2098"
                 password:
                   type: "string"
                   example: "12345678"
@@ -606,6 +609,7 @@ components:
         - nombre_usuario
         - nombre_completo
         - direccion
+        - telefono
         - email
         - password
         - rol
@@ -623,6 +627,9 @@ components:
         direccion:
           type: "string"
           example: "Marcelo T. Alvear 1614 4°A"
+        telefono:
+          type: "string"
+          example: "+54 9 11 5211 1111"
         password:
           type: "string"
           example: "12345678"
