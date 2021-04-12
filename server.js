@@ -26,8 +26,8 @@ require("./app/routes/detallePedido_routes")(app);
 
 
 
-app.listen(8500, () => {
-    console.log("A la espera en 8500")
+app.listen(process.env.PORT, () => {
+    console.log("A la espera en " + process.env.PORT )
 })
 
 
