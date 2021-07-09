@@ -39,7 +39,7 @@ exports.login = (req, res) => {
     Usuario.get(usuario, (err, data) => {
       if (err) {
         res.status(500).send("Error al procesar");
-      } else {
+      } else if (data) {
         const passwordOK = bcrypt.compareSync(
           usuario.password,
           data[0].password
