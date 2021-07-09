@@ -1,13 +1,11 @@
 const express = require('express');
 const swaggerUI = require('swagger-ui-express');
-const YAML = require('yamljs')
+const YAML = require('yamljs');
+const connection = require('./app/models/db');
 const docs = YAML.load('./spec.yaml');
-
 require('dotenv').config();
 
-
 const app = express();
-
 
 app.use(express.json())
 
@@ -23,8 +21,6 @@ require("./app/routes/producto_routes")(app);
 require("./app/routes/usuario_routes")(app);
 require("./app/routes/pedido_routes")(app);
 require("./app/routes/detallePedido_routes")(app);
-
-
 
 app.listen(process.env.PORT, () => {
     console.log("A la espera en " + process.env.PORT )
