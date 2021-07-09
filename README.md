@@ -4,6 +4,7 @@
     * DB_PASS
     * DB_HOST
     * DB_USER
+    * DB_NAME
     * SECRET
 1. `npm install`
 1. Para cargar la estructura de la base de datos: `mysql < initial_structure.sql -u [USERNAME] -p` 
