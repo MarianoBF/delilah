@@ -14,8 +14,10 @@ app.use(express.urlencoded({ extended: true}))
 
 const corsOptions = {
   credentials: true,
-  origin: ["https://marianobf.github.io", "http://localhost:3000"]
+  origin: ["http://localhost:4200"]
 };
+
+app.use(cors(corsOptions));
 
 app.use('/docs', swaggerUI.serve, swaggerUI.setup(docs));
 
