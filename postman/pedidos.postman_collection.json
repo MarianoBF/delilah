@@ -1,0 +1,753 @@
+{
+	"info": {
+		"_postman_id": "111bd205-cb18-46c5-8f0d-2a196127bdf0",
+		"name": "Delilah",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Listar Productos",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "{{TokenAdmin}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "http://{{lcl}}/api/v1/productos",
+					"protocol": "http",
+					"host": [
+						"{{lcl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"productos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sumar Producto",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "{{TokenAdmin}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "nombre",
+							"value": "Otra prueba",
+							"type": "text"
+						},
+						{
+							"key": "descripcion",
+							"value": "No tiene descripcion",
+							"type": "text"
+						},
+						{
+							"key": "precio",
+							"value": "1000",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://{{lcl}}/api/v1/producto",
+					"protocol": "http",
+					"host": [
+						"{{lcl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"producto"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Editar Producto",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "{{TokenAdmin}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "nombre",
+							"value": "Producto J",
+							"type": "text"
+						},
+						{
+							"key": "descripcion",
+							"value": "Cualquiera",
+							"type": "text"
+						},
+						{
+							"key": "precio",
+							"value": "555",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://{{lcl}}/api/v1/producto/3",
+					"protocol": "http",
+					"host": [
+						"{{lcl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"producto",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Borrar Producto",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "{{TokenAdmin}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://{{lcl}}/api/v1/producto/3",
+					"protocol": "http",
+					"host": [
+						"{{lcl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"producto",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar Usuarios",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "{{TokenAdmin}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "Prueba",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "Prueba2",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://{{lcl}}/api/v1/usuarios",
+					"protocol": "http",
+					"host": [
+						"{{lcl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"usuarios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Usuario",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "nombre_completo",
+							"value": "Juan Pérez33",
+							"type": "text"
+						},
+						{
+							"key": "nombre_usuario",
+							"value": "jperez33",
+							"type": "text"
+						},
+						{
+							"key": "direccion",
+							"value": "Marcelo T. Alvear 1614 4°A",
+							"type": "text"
+						},
+						{
+							"key": "telefono",
+							"value": "0303456 ext 2098",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "12345678",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "juan@perez.com33",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://{{lcl}}/api/v1/usuario/crear",
+					"protocol": "http",
+					"host": [
+						"{{lcl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"usuario",
+						"crear"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login Usuario",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "nombre_usuario",
+							"value": "jperez33",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "12345678",
+							"type": "text"
+						},
+						{
+							"key": "nombre_usuario",
+							"value": "prueba2",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "http://{{lcl}}/api/v1/usuario/login",
+					"protocol": "http",
+					"host": [
+						"{{lcl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"usuario",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Editar Usuario",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "{{TokenAdmin}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "nombre_usuario",
+							"value": "dasdasdasdada",
+							"type": "text"
+						},
+						{
+							"key": "nombre_completo",
+							"value": "dasdadasdas",
+							"type": "text"
+						},
+						{
+							"key": "rol",
+							"value": "usuario",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "abcdefas",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "http://{{lcl}}/api/v1/usuario/2",
+					"protocol": "http",
+					"host": [
+						"{{lcl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"usuario",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Borrar Usuario",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "{{TokenAdmin}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://{{lcl}}/api/v1/usuario/4",
+					"protocol": "http",
+					"host": [
+						"{{lcl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"usuario",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar Pedidos",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "{{TokenAdmin}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "nombre_usuario",
+							"value": "prueba2",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://{{lcl}}/api/v1/pedidos",
+					"protocol": "http",
+					"host": [
+						"{{lcl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"pedidos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sumar Pedido",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "{{TokenAdmin}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "hora",
+							"value": "2020-05-21 09:20:20",
+							"type": "text"
+						},
+						{
+							"key": "pago_via",
+							"value": "2500",
+							"type": "text"
+						},
+						{
+							"key": "pago_monto",
+							"value": "1230",
+							"type": "text"
+						},
+						{
+							"key": "id_usuario",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://{{lcl}}/api/v1/pedido",
+					"protocol": "http",
+					"host": [
+						"{{lcl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"pedido"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Editar Pedido",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "{{TokenAdmin}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "estado",
+							"value": "cancelado",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://{{lcl}}/api/v1/pedido/1",
+					"protocol": "http",
+					"host": [
+						"{{lcl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"pedido",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Borrar Pedido",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "{{TokenAdmin}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://{{lcl}}/api/v1/pedido/2",
+					"protocol": "http",
+					"host": [
+						"{{lcl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"pedido",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar Productos de los Pedidos",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "{{TokenAdmin}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "Prueba",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "Prueba2",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://{{lcl}}/api/v1/detallePedidos",
+					"protocol": "http",
+					"host": [
+						"{{lcl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"detallePedidos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sumar Producto a un Pedido",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "{{TokenAdmin}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "id_usuario",
+							"value": "2",
+							"type": "text"
+						},
+						{
+							"key": "id_pedido",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "id_producto",
+							"value": "4",
+							"type": "text"
+						},
+						{
+							"key": "cantidad_producto",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://{{lcl}}/api/v1/detallePedido/1",
+					"protocol": "http",
+					"host": [
+						"{{lcl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"detallePedido",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Editar Producto de un Pedido",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "{{TokenAdmin}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "id_pedido",
+							"value": "2",
+							"type": "text"
+						},
+						{
+							"key": "id_producto",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "cantidad_producto",
+							"value": "5",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://{{lcl}}/api/v1/detallePedido/1",
+					"protocol": "http",
+					"host": [
+						"{{lcl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"detallePedido",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Borrar Producto de un Pedido",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "{{TokenAdmin}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://{{lcl}}/api/v1/detallePedido/2",
+					"protocol": "http",
+					"host": [
+						"{{lcl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"detallePedido",
+						"2"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "Token",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2wiOiJ1c3VhcmlvIiwibm9tYnJlX3VzdWFyaW8iOiJqcGVyZXoiLCJpZF91c3VhcmlvIjo0NSwiaWF0IjoxNjI1OTM2MTIzLCJleHAiOjE2MjYwMjI1MjN9.U0Ib--Dl6APkbvH4w849tB66kVe09ZfMvfaNhzeuyTU"
+		},
+		{
+			"key": "TokenAdmin",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2wiOiJhZG1pbmlzdHJhZG9yIiwibm9tYnJlX3VzdWFyaW8iOiJqcGVyZXozMyIsImlkX3VzdWFyaW8iOjYsImlhdCI6MTYyNTk1MTc0NywiZXhwIjoxNjI2MDM4MTQ3fQ.pMpVaaCBFfk2VbJAz4yPJ0oNIdmDmKtoBhTqrH8zfPc"
+		},
+		{
+			"key": "hrk",
+			"value": "pedidos456.herokuapp.com"
+		},
+		{
+			"key": "lcl",
+			"value": "localhost:8500"
+		}
+	]
+}
