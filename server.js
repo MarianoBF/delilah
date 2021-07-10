@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require("cors");
 const swaggerUI = require('swagger-ui-express');
 const YAML = require('yamljs');
 const connection = require('./app/models/db');
@@ -10,6 +11,11 @@ const app = express();
 app.use(express.json())
 
 app.use(express.urlencoded({ extended: true}))
+
+const corsOptions = {
+  credentials: true,
+  origin: ["https://marianobf.github.io", "http://localhost:3000"]
+};
 
 app.use('/docs', swaggerUI.serve, swaggerUI.setup(docs));
 
