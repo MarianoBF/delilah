@@ -12,7 +12,7 @@ exports.create = (req, res) => {
       email: req.body.email,
       direccion: req.body.direccion,
       telefono: req.body.telefono,
-      rol: "usuario", //todos los usuarios se crean como usuario simple, el Admin les debe elevar privilegios
+      rol: "administrador", //usuarios se crean como admin
     });
     Usuario.create(usuario, (err, data) => {
       if (err) {
