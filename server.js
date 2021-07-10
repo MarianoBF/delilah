@@ -14,7 +14,7 @@ app.use(express.urlencoded({ extended: true}))
 
 const corsOptions = {
   credentials: true,
-  origin: ["http://localhost:4200"]
+  origin: ["http://localhost:4200", "https://pedidos456.netlify.app"]
 };
 
 app.use(cors(corsOptions));
