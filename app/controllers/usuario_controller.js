@@ -52,9 +52,9 @@ exports.login = (req, res) => {
               id_usuario: data[0].id_usuario,
             },
             dbConfig.SECRETO,
-            { expiresIn: 86400 }
+            {expiresIn: 86400}
           );
-          res.send(token);
+          res.status(200).send({token: token});
         } else {
           res
             .status(400)
@@ -92,7 +92,7 @@ exports.findAll = (req, res) => {
           res.send(data);
         }
       });
-    }  else {
+    } else {
       res.status(401).send("Token inválido");
     }
   } catch {
