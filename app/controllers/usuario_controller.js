@@ -39,7 +39,7 @@ exports.login = (req, res) => {
     Usuario.get(usuario, (err, data) => {
       if (err) {
         res.status(500).send("Error al procesar");
-      } else if (data) {
+      } else if (data.length > 0) {
         const passwordOK = bcrypt.compareSync(
           usuario.password,
           data[0].password
@@ -62,6 +62,12 @@ exports.login = (req, res) => {
               "Hubo un problema al loguear, revise los datos y vuelva a intentar en un momento"
             );
         }
+      } else {
+        res
+          .status(400)
+          .send(
+            "Hubo un problema al loguear, revise los datos y vuelva a intentar en un momento"
+          );
       }
     });
   } catch {
