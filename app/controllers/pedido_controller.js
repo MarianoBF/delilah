@@ -99,7 +99,7 @@ exports.delete = (req, res) => {
     if (validacion.rol === "administrador") {
       const id = req.params.id_pedido;
       Pedido.delete(id, (err, data) => {
-        if (err) {
+        if (data.errno) {
           res.status(500).send("Error al procesar");
         } else {
           res.send("Borrado OK");

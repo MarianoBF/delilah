@@ -143,7 +143,7 @@ exports.update = (req, res) => {
       });
       const id = req.params.id_usuario;
       Usuario.update(id, usuario, (err, data) => {
-        if (err) {
+        if (data.errno) {
           res.status(500).send("Error al procesar");
         } else {
           res.send(data);
