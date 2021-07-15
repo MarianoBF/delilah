@@ -76,8 +76,8 @@ exports.delete = (req, res) => {
   if (validacion.rol === "administrador") {
     const id = req.params.id_producto;
     Producto.delete(id, (err, data) => {
-      if (err) {
-        res.status(500).send("Error al procesar");
+      if (data.errno) {
+        res.status(500).send("Error al procesar borrado, probablmente el producto existe en uno o más pedidos.");
       } else {
         res.send("Borrado OK");
       }
