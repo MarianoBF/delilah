@@ -150,7 +150,7 @@ exports.delete = (req, res) => {
         if (err) {
           res.status(500).send("Error al procesar");
         } else {
-          res.send("Borrado OK");
+          res.status(204).send();
         }
       });
     } else if (validacion.resultado === "Autorizado") {

@@ -79,7 +79,7 @@ exports.delete = (req, res) => {
       if (data.errno) {
         res.status(500).send("Error al procesar borrado, probablmente el producto existe en uno o más pedidos.");
       } else {
-        res.send("Borrado OK");
+        res.status(204).send();
       }
     });
   } else if (validacion.resultado === "Autorizado") {
