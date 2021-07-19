@@ -16,9 +16,9 @@ exports.create = (req, res) => {
     });
     Usuario.create(usuario, (err, data) => {
       if (err) {
-        res.status(500).send("Error al procesar");
+        res.status(500).send("Error al procesar, probable nombre de usuario, nombre completo o email duplicado. ");
       } else {
-        res.send(data);
+        res.status(200).send({message: "Usuario creado", nombre_usuario: data.nombre_usuario, id_usuario: data.id, email: data.email});
       }
     });
   } catch {
