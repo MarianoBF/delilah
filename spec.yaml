@@ -1,6 +1,6 @@
 openapi: "3.0.3"
 info:
-  title: "Delilah Restó"
+  title: "Pedidos"
   version: "1.0.0"
   description: "La api de un sistema de gestión de pedidos de comida"
   contact:

@@ -1,5 +1,5 @@
 {
-  "name": "delilah",
+  "name": "pedidos",
   "version": "1.0.0",
   "description": "Una API para pedidos de comida",
   "main": "server.js",
@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/MarianoBF/delilah.git"
+    "url": "git+https://github.com/MarianoBF/pedidos-back.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/MarianoBF/delilah/issues"
+    "url": "https://github.com/MarianoBF/pedidos-back/issues"
   },
-  "homepage": "https://github.com/MarianoBF/delilah#readme",
+  "homepage": "https://github.com/MarianoBF/pedidos-back#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",

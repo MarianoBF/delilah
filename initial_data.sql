@@ -1,4 +1,4 @@
-USE DelilahTestdb;
+USE productsDB;
 
 INSERT INTO usuarios VALUES (1, 'adminProbando', 'prueba@prueba.com', '$2a$08$WGvIklO7T1S2.7Hw8r7uauT0McpeMrqG.okt6qdfKtX93Yl1F9yh.', "administrador", "Usuario de Prueba1", "Cochabamba 1614 4°A", "4444-4488");
 INSERT INTO usuarios VALUES (2, 'Usuarioprueba2', 'prueba2@prueba.com', '$2a$08$A98dvYRirtpjWyhGTygzXOhy0l1Cwk.jgwfHdNE3NvblzSdJxjePe', "usuario", "Usuario de Prueba2", "Cochabamba 1614 4°A", "4444-4488");
