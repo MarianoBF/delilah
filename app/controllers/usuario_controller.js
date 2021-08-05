@@ -165,7 +165,7 @@ exports.delete = (req, res) => {
     if (validacion.rol === "administrador") {
       const id = req.params.id_usuario;
       Usuario.delete(id, (err, data) => {
-        if (err) {
+        if (data.errno) {
           res
             .status(500)
             .send("Error al procesar, puede tener pedidos asociados");

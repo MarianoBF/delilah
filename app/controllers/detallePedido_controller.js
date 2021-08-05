@@ -147,8 +147,8 @@ exports.delete = (req, res) => {
     if (validacion.rol === "administrador") {
       const id = req.params.id_detallePedido;
       DetallePedido.delete(id, (err, data) => {
-        if (err) {
-          res.status(500).send("Error al procesar");
+        if (data.errno) {
+          res.status(500).send("Error al procesar borrado");
         } else {
           res.status(204).send();
         }
