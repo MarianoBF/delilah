@@ -29,6 +29,18 @@ Producto.getAll = (result) => {
   });
 };
 
+Producto.getByID = (id, result) => {
+  sql.query(`SELECT * FROM productos WHERE id_producto=${id}`, (err, res) => {
+    if (err) {
+      console.log(err);
+      result(null, err);
+      return;
+    }
+    result(null, res);
+    return;
+  });
+};
+
 Producto.update = (id, updateProd, result) => {
   sql.query(
     `UPDATE productos SET nombre = '${updateProd.nombre}', precio = ${updateProd.precio}, descripcion =  '${updateProd.descripcion}'  WHERE id_producto=${id};`,

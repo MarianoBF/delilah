@@ -44,6 +44,24 @@ exports.findAll = (req, res) => {
   }
 };
 
+exports.findOne = (req, res) => {
+  try {
+  if (chequearToken(req.headers["x-access-token"]).resultado === "Autorizado") {
+    const id = req.params.id_producto;
+    Producto.getByID(id, (err, data) => {
+      if (err) {
+        res.status(500).send("Error al procesar");
+      } else {
+        res.send(data);
+      }
+    });
+  } else {
+    res.status(401).send("Token inválido");
+  } } catch {
+    res.status(400).send("Hubo un problema, revise los datos y reintente");
+  }
+};
+
 exports.update = (req, res) => {
   try {
   const validacion = chequearToken(req.headers["x-access-token"]);
