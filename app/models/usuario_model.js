@@ -38,11 +38,17 @@ Usuario.update = (id, updateUsuario, result) => {
     sql.query(
       `UPDATE usuarios SET nombre_usuario = '${updateUsuario.nombre_usuario}', password = '${updateUsuario.password}', rol =  '${updateUsuario.rol}', nombre_completo = '${updateUsuario.nombre_completo}'  WHERE id_usuario=${id};`,
       (err, res) => {
+        if (res.affectedRows === 0) {
+          console.log(res);
+          result(null, res);
+          return;
+        }
         if (err) {
           console.log(err);
           result(null, err);
           return;
         }
+        console.log(res)
         result(null, {id: id, ...updateUsuario});
         return;
       }
