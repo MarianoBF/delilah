@@ -127,6 +127,10 @@ exports.update = (req, res) => {
       DetallePedido.update(id, detallePedido, (err, data) => {
         if (err) {
           res.status(500).send("Error al procesar");
+        } else if (data.affectedRows === 0) {
+          res
+            .status(500)
+            .send("No se pudo actualizar, revise los datos ingresados");
         } else {
           res.send(data);
         }

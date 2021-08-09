@@ -45,6 +45,11 @@ Producto.update = (id, updateProd, result) => {
   sql.query(
     `UPDATE productos SET nombre = '${updateProd.nombre}', precio = ${updateProd.precio}, descripcion =  '${updateProd.descripcion}'  WHERE id_producto=${id};`,
     (err, res) => {
+      if (res.affectedRows === 0) {
+        console.log("no match!");
+        result(null, res);
+        return;
+      }
       if (err) {
         console.log(err);
         result(null, err);

@@ -75,7 +75,10 @@ exports.update = (req, res) => {
     Producto.update(id, producto, (err, data) => {
       if (err) {
         res.status(500).send("Error al procesar");
-      } else {
+      } else if (data.affectedRows === 0) {
+        res.status(500).send("No se pudo actualizar, revise los datos ingresados");  
+      }
+      else {
         res.send(data);
       }
     });

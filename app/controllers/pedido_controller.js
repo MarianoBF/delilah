@@ -69,13 +69,17 @@ exports.update = (req, res) => {
     const validacion = chequearToken(req.headers["x-access-token"]);
     const id = req.params.id_pedido;
     const estado = req.body.estado;
-    console.log(id, estado, ESTADOSPOSIBLES)
+    console.log(id, estado, ESTADOSPOSIBLES);
     if (validacion.rol === "administrador") {
       if (ESTADOSPOSIBLES.includes(estado.toLowerCase())) {
         //solo se puede actualizar estado según requerimientos
         Pedido.update(id, estado, (err, data) => {
           if (err) {
             res.status(500).send("Error al procesar");
+          } else if (data.affectedRows === 0) {
+            res
+              .status(500)
+              .send("No se pudo actualizar, revise los datos ingresados");
           } else {
             res.send(data);
           }

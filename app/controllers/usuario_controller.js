@@ -121,9 +121,8 @@ exports.update = (req, res) => {
         });
         const id = req.params.id_usuario;
         Usuario.update(id, usuario, (err, data) => {
-          console.log("data", data, err)
           if (err) {
-            res.status(500).send("Error al procesar, posible usuario inexistente");
+            res.status(500).send("Error al procesar");
           } else if (data.affectedRows === 0) {
             res.status(500).send("No se pudo actualizar, revise los datos ingresados");  
           }

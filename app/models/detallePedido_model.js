@@ -45,6 +45,11 @@ DetallePedido.update = (id, detallePedido, result) => {
     sql.query(
       `UPDATE detallePedidos SET id_producto = ${detallePedido.id_producto}, cantidad_producto =  ${detallePedido.cantidad_producto}  WHERE id_detallePedido=${id};`,
       (err, res) => {
+        if (res.affectedRows === 0) {
+          console.log("no match!");
+          result(null, res);
+          return;
+        }
         if (err) {
           console.log(err);
           result(null, err);
