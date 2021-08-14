@@ -26,7 +26,8 @@ connection.query(`CREATE TABLE IF NOT EXISTS productos (
     id_producto INT(10) NOT NULL PRIMARY KEY AUTO_INCREMENT,
     nombre VARCHAR(255) NOT NULL UNIQUE,
     descripcion VARCHAR(255),
-    precio DECIMAL(8,2) NOT NULL
+    precio DECIMAL(8,2) NOT NULL,
+    imagen VARCHAR(255)
   ) DEFAULT CHARSET=UTF8;`);
 
 connection.query(`CREATE TABLE IF NOT EXISTS pedidos (

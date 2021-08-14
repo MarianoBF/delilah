@@ -4,6 +4,7 @@ const Producto = function (producto) {
   this.nombre = producto.nombre;
   this.descripcion = producto.descripcion;
   this.precio = producto.precio;
+  this.imagen = producto.imagen;
 };
 
 Producto.create = (newProducto, result) => {
@@ -43,7 +44,7 @@ Producto.getByID = (id, result) => {
 
 Producto.update = (id, updateProd, result) => {
   sql.query(
-    `UPDATE productos SET nombre = '${updateProd.nombre}', precio = ${updateProd.precio}, descripcion =  '${updateProd.descripcion}'  WHERE id_producto=${id};`,
+    `UPDATE productos SET nombre = '${updateProd.nombre}', precio = ${updateProd.precio}, descripcion =  '${updateProd.descripcion}', imagen = '${updateProd.imagen}'  WHERE id_producto=${id};`,
     (err, res) => {
       if (res.affectedRows === 0) {
         console.log("no match!");

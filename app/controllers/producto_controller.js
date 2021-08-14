@@ -9,6 +9,7 @@ exports.create = (req, res) => {
       nombre: req.body.nombre,
       descripcion: req.body.descripcion,
       precio: req.body.precio,
+      imagen: req.body.imagen,
     });
     Producto.create(producto, (err, data) => {
       if (err) {
@@ -70,6 +71,7 @@ exports.update = (req, res) => {
       nombre: req.body.nombre,
       descripcion: req.body.descripcion,
       precio: req.body.precio,
+      imagen: req.body.imagen,
     });
     const id = req.params.id_producto;
     Producto.update(id, producto, (err, data) => {
