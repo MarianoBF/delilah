@@ -34,8 +34,15 @@ Usuario.getAll = (result) => {
 };
 
 Usuario.update = (id, updateUsuario, result) => {
+  console.log("to upd", updateUsuario)
   sql.query(
-    `UPDATE usuarios SET nombre_usuario = '${updateUsuario.nombre_usuario}', password = '${updateUsuario.password}', rol =  '${updateUsuario.rol}', nombre_completo = '${updateUsuario.nombre_completo}'  WHERE id_usuario=${id};`,
+    `UPDATE usuarios SET nombre_usuario = IF ('${updateUsuario.nombre_usuario}'='undefined',nombre_usuario,'${updateUsuario.nombre_usuario}'), 
+    nombre_completo = IF ('${updateUsuario.nombre_completo}'='undefined',nombre_completo,'${updateUsuario.nombre_completo}'),
+    telefono = IF ('${updateUsuario.telefono}'='undefined',telefono,'${updateUsuario.telefono}'),
+    direccion = IF ('${updateUsuario.direccion}'='undefined',direccion,'${updateUsuario.direccion}'),
+    email = IF ('${updateUsuario.email}'='undefined',email,'${updateUsuario.email}'),
+    nombre_usuario = IF ('${updateUsuario.nombre_usuario}'='undefined',nombre_usuario,'${updateUsuario.nombre_usuario}'),
+    rol =  '${updateUsuario.rol}' WHERE id_usuario=${id};`,
     (err, res) => {
       if (err) {
         console.log(err);
