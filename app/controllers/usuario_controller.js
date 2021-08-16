@@ -16,9 +16,20 @@ exports.create = (req, res) => {
     });
     Usuario.create(usuario, (err, data) => {
       if (err) {
-        res.status(500).send("Error al procesar, probable nombre de usuario, nombre completo o email duplicado. ");
+        res
+          .status(500)
+          .send(
+            "Error al procesar, probable nombre de usuario, nombre completo o email duplicado. "
+          );
       } else {
-        res.status(200).send({message: "Usuario creado", nombre_usuario: data.nombre_usuario, id_usuario: data.id, email: data.email});
+        res
+          .status(200)
+          .send({
+            message: "Usuario creado",
+            nombre_usuario: data.nombre_usuario,
+            id_usuario: data.id,
+            email: data.email,
+          });
       }
     });
   } catch {
@@ -52,9 +63,9 @@ exports.login = (req, res) => {
               id_usuario: data[0].id_usuario,
             },
             dbConfig.SECRETO,
-            {expiresIn: 86400}
+            { expiresIn: 86400 }
           );
-          res.status(200).send({token: token});
+          res.status(200).send({ token: token });
         } else {
           res
             .status(400)
@@ -87,7 +98,18 @@ exports.findAll = (req, res) => {
         if (err) {
           res.status(500).send("Error al procesar");
         } else {
-          res.send(data);
+          datos = data.map((usuario) => {
+            return {
+              id_usuario: usuario.id_usuario,
+              nombre_usuario: usuario.nombre_usuario,
+              nombre_completo: usuario.nombre_completo,
+              email: usuario.email,
+              direccion: usuario.direccion,
+              telefono: usuario.telefono,
+              rol: usuario.rol,
+            };
+          });
+          res.send({ datos });
         }
       });
     } else if (validacion.rol === "usuario") {
@@ -95,7 +117,14 @@ exports.findAll = (req, res) => {
         if (err) {
           res.status(500).send("Error al procesar");
         } else {
-          res.send(data);
+          res.send({
+            nombre_usuario: data.nombre_usuario,
+            nombre_completo: data.nombre_completo,
+            email: data.email,
+            direccion: data.direccion,
+            telefono: data.telefono,
+            rol: data.rol,
+          });
         }
       });
     } else {
@@ -124,9 +153,10 @@ exports.update = (req, res) => {
           if (err) {
             res.status(500).send("Error al procesar");
           } else if (data.affectedRows === 0) {
-            res.status(500).send("No se pudo actualizar, revise los datos ingresados");  
-          }
-          else {
+            res
+              .status(500)
+              .send("No se pudo actualizar, revise los datos ingresados");
+          } else {
             res.send(data);
           }
         });
