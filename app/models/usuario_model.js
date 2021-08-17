@@ -42,7 +42,7 @@ Usuario.update = (id, updateUsuario, result) => {
     direccion = IF ('${updateUsuario.direccion}'='undefined',direccion,'${updateUsuario.direccion}'),
     email = IF ('${updateUsuario.email}'='undefined',email,'${updateUsuario.email}'),
     nombre_usuario = IF ('${updateUsuario.nombre_usuario}'='undefined',nombre_usuario,'${updateUsuario.nombre_usuario}'),
-    rol =  '${updateUsuario.rol}' WHERE id_usuario=${id};`,
+    rol = '${updateUsuario.rol}' WHERE id_usuario=${id};`,
     (err, res) => {
       if (err) {
         console.log(err);

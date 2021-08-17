@@ -44,7 +44,11 @@ Producto.getByID = (id, result) => {
 
 Producto.update = (id, updateProd, result) => {
   sql.query(
-    `UPDATE productos SET nombre = '${updateProd.nombre}', precio = ${updateProd.precio}, descripcion =  '${updateProd.descripcion}', imagen = '${updateProd.imagen}'  WHERE id_producto=${id};`,
+    `UPDATE productos SET nombre = IF('${updateProd.nombre}'='undefined',nombre,'${updateProd.nombre}'), 
+    precio = IF('${updateProd.precio}'='undefined',precio,'${updateProd.precio}'),
+    descripcion = IF('${updateProd.descripcion}'='undefined',descripcion,'${updateProd.descripcion}'),
+    imagen = IF('${updateProd.imagen}'='undefined',imagen,'${updateProd.imagen}') 
+    WHERE id_producto=${id};`,
     (err, res) => {
       if (err) {
         console.log(err);

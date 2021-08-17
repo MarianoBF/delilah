@@ -75,8 +75,8 @@ exports.update = (req, res) => {
     });
     const id = req.params.id_producto;
     Producto.update(id, producto, (err, data) => {
-      if (err) {
-        res.status(500).send("Error al procesar");
+      if (data.errno) {
+        res.status(500).send("Error al procesar  reintente más adelante y/o con otros datos");
       } else if (data.affectedRows === 0) {
         res.status(500).send("No se pudo actualizar, revise los datos ingresados");  
       }
