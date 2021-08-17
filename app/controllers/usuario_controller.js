@@ -142,12 +142,14 @@ exports.update = (req, res) => {
           const usuario = new Usuario({
             nombre_usuario: req.body.nombre_usuario,
             nombre_completo: req.body.nombre_completo,
-            password: req.body.password,
             email: req.body.email,
             direccion: req.body.direccion,
             telefono: req.body.telefono,
             rol: req.body.rol,
           });
+          if (req.body.password) {
+            usuario.password = bcrypt.hashSync(req.body.password, 8);
+          }
           const id = req.params.id_usuario;
           Usuario.update(id, usuario, (err, data) => {
             if (data.errno) {

@@ -40,6 +40,7 @@ Usuario.update = (id, updateUsuario, result) => {
     nombre_completo = IF ('${updateUsuario.nombre_completo}'='undefined',nombre_completo,'${updateUsuario.nombre_completo}'),
     telefono = IF ('${updateUsuario.telefono}'='undefined',telefono,'${updateUsuario.telefono}'),
     direccion = IF ('${updateUsuario.direccion}'='undefined',direccion,'${updateUsuario.direccion}'),
+    password = IF ('${updateUsuario.password}'='undefined',password,'${updateUsuario.password}'),
     email = IF ('${updateUsuario.email}'='undefined',email,'${updateUsuario.email}'),
     nombre_usuario = IF ('${updateUsuario.nombre_usuario}'='undefined',nombre_usuario,'${updateUsuario.nombre_usuario}'),
     rol = '${updateUsuario.rol}' WHERE id_usuario=${id};`,
