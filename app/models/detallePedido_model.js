@@ -43,7 +43,9 @@ DetallePedido.getAll = (result) => {
 
 DetallePedido.update = (id, detallePedido, result) => {
     sql.query(
-      `UPDATE detallePedidos SET id_producto = ${detallePedido.id_producto}, cantidad_producto =  ${detallePedido.cantidad_producto}  WHERE id_detallePedido=${id};`,
+      `UPDATE detallePedidos SET id_producto = IF ('${detallePedido.id_producto}'='undefined',id_producto,'${detallePedido.id_producto}'),
+       cantidad_producto = IF ('${detallePedido.cantidad_producto}'='undefined',cantidad_producto,'${detallePedido.cantidad_producto}')
+       WHERE id_detallePedido=${id};`,
       (err, res) => {
         if (err) {
           console.log(err);

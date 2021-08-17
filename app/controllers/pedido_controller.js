@@ -69,7 +69,6 @@ exports.update = (req, res) => {
     const validacion = chequearToken(req.headers["x-access-token"]);
     const id = req.params.id_pedido;
     const estado = req.body.estado;
-    console.log(id, estado, ESTADOSPOSIBLES);
     if (validacion.rol === "administrador") {
       if (ESTADOSPOSIBLES.includes(estado.toLowerCase())) {
         //solo se puede actualizar estado según requerimientos

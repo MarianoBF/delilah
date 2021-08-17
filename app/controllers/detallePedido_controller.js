@@ -125,8 +125,8 @@ exports.update = (req, res) => {
       });
       const id = req.params.id_detallePedido;
       DetallePedido.update(id, detallePedido, (err, data) => {
-        if (err) {
-          res.status(500).send("Error al procesar");
+        if (data.errno) {
+          res.status(500).send("Error al procesar, chequee los datos y reintente");
         } else if (data.affectedRows === 0) {
           res
             .status(500)
