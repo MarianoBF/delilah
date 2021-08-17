@@ -138,7 +138,7 @@ exports.update = (req, res) => {
   try {
     const validacion = chequearToken(req.headers["x-access-token"]);
     if (validacion.rol === "administrador") {
-      if (req.body.rol === "usuario" || req.body.rol === "administrador") {
+      if (req.body.rol === "usuario" || req.body.rol === "administrador" || req.body.rol === undefined) {
           const usuario = new Usuario({
             nombre_usuario: req.body.nombre_usuario,
             nombre_completo: req.body.nombre_completo,

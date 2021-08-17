@@ -34,7 +34,6 @@ Usuario.getAll = (result) => {
 };
 
 Usuario.update = (id, updateUsuario, result) => {
-  console.log("to upd", updateUsuario)
   sql.query(
     `UPDATE usuarios SET nombre_usuario = IF ('${updateUsuario.nombre_usuario}'='undefined',nombre_usuario,'${updateUsuario.nombre_usuario}'), 
     nombre_completo = IF ('${updateUsuario.nombre_completo}'='undefined',nombre_completo,'${updateUsuario.nombre_completo}'),
