@@ -61,6 +61,33 @@ paths:
         "500":
           $ref: "#components/responses/ErrorServidor"
   /producto/{id_producto}:
+    get:
+      summary: "Listar Producto por id"
+      tags:
+        - "Productos"
+      parameters:
+        - $ref: "#components/parameters/AccessToken"
+        - name: id_producto
+          required: true
+          in: path
+          schema:
+            type: "integer"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                $ref: "#/components/schemas/Producto"
+        "400":
+          $ref: "#components/responses/DatosFaltantes"
+        "401":
+          $ref: "#components/responses/SinAcceso"
+        "403":
+          $ref: "#components/responses/NoAutorizado"
+        "500":
+          $ref: "#components/responses/ErrorServidor"
     put:
       summary: "Modificar Producto por id"
       tags:
