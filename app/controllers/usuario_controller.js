@@ -2,6 +2,7 @@ const Usuario = require("../models/usuario_model.js");
 const jwt = require("jsonwebtoken");
 const dbConfig = require("../config/db.config");
 const bcrypt = require("bcryptjs");
+const { validationResult } = require("express-validator");
 
 exports.create = (req, res) => {
   try {
@@ -22,9 +23,7 @@ exports.create = (req, res) => {
             "Error al procesar, probable nombre de usuario, nombre completo o email duplicado. "
           );
       } else {
-        res
-        .status(200)
-        .send({
+        res.status(200).send({
           message: "Usuario creado",
           nombre_usuario: data.nombre_usuario,
           id_usuario: data.id,
@@ -42,6 +41,14 @@ exports.create = (req, res) => {
 };
 
 exports.login = (req, res) => {
+  const errors = validationResult(req);
+  console.log(errors)
+  if (!errors.isEmpty()) {
+    return res.status(400).send({
+      ok: false,
+      errors: errors.mapped()
+    })
+  }
   try {
     const usuario = {
       nombre_usuario: req.body.nombre_usuario,
@@ -138,47 +145,54 @@ exports.update = (req, res) => {
   try {
     const validacion = chequearToken(req.headers["x-access-token"]);
     if (validacion.rol === "administrador") {
-      if (req.body.rol === "usuario" || req.body.rol === "administrador" || req.body.rol === undefined) {
-          const usuario = new Usuario({
-            nombre_usuario: req.body.nombre_usuario,
-            nombre_completo: req.body.nombre_completo,
-            email: req.body.email,
-            direccion: req.body.direccion,
-            telefono: req.body.telefono,
-            rol: req.body.rol,
-          });
-          if (req.body.password) {
-            usuario.password = bcrypt.hashSync(req.body.password, 8);
+      if (
+        req.body.rol === "usuario" ||
+        req.body.rol === "administrador" ||
+        req.body.rol === undefined
+      ) {
+        const usuario = new Usuario({
+          nombre_usuario: req.body.nombre_usuario,
+          nombre_completo: req.body.nombre_completo,
+          email: req.body.email,
+          direccion: req.body.direccion,
+          telefono: req.body.telefono,
+          rol: req.body.rol,
+        });
+        if (req.body.password) {
+          usuario.password = bcrypt.hashSync(req.body.password, 8);
+        }
+        const id = req.params.id_usuario;
+        Usuario.update(id, usuario, (err, data) => {
+          if (data.errno) {
+            res
+              .status(500)
+              .send(
+                "Error al procesar, reintente más adelante y/o con otros datos"
+              );
+          } else if (data.affectedRows === 0) {
+            res
+              .status(500)
+              .send("No se pudo actualizar, revise los datos ingresados");
+          } else {
+            res.send({
+              message: "Usuario actualizado",
+              id_usuario: data.id_usuario,
+              nombre_usuario: data.nombre_usuario,
+              nombre_completo: data.nombre_completo,
+              direccion: data.direccion,
+              telefono: data.telefono,
+              rol: data.rol,
+              email: data.email,
+            });
           }
-          const id = req.params.id_usuario;
-          Usuario.update(id, usuario, (err, data) => {
-            if (data.errno) {
-              res.status(500).send("Error al procesar, reintente más adelante y/o con otros datos");
-            } else if (data.affectedRows === 0) {
-              res
-                .status(500)
-                .send("No se pudo actualizar, revise los datos ingresados");
-            } else {
-              res.send({
-                message: "Usuario actualizado",
-                id_usuario: data.id_usuario,
-                nombre_usuario: data.nombre_usuario,
-                nombre_completo: data.nombre_completo,
-                direccion: data.direccion,
-                telefono: data.telefono,
-                rol: data.rol,
-                email: data.email,
-              });
-            }
-          ;
         });
       } else {
         res.status(400).send("Rol no válido");
       }
     } else if (
       validacion.id_usuario === +req.params.id_usuario // Admin puede modificar todos, o cada usuario sus propios datos excepto rol
-    ) {      
-        const usuario = new Usuario({
+    ) {
+      const usuario = new Usuario({
         nombre_usuario: req.body.nombre_usuario,
         password: req.body.password,
         nombre_completo: req.body.nombre_completo,
@@ -189,7 +203,11 @@ exports.update = (req, res) => {
       const id = req.params.id_usuario;
       Usuario.update(id, usuario, (err, data) => {
         if (data.errno) {
-          res.status(500).send("Error al procesar, reintente más adelante y/o con otros datos");
+          res
+            .status(500)
+            .send(
+              "Error al procesar, reintente más adelante y/o con otros datos"
+            );
         } else if (data.affectedRows === 0) {
           res
             .status(500)
@@ -213,7 +231,7 @@ exports.update = (req, res) => {
       res.status(401).send("Token inválido");
     }
   } catch (error) {
-    console.log("error", error)
+    console.log("error", error);
     res.status(400).send("Hubo un problema, revise los datos y reintente");
   }
 };
@@ -239,5 +257,37 @@ exports.delete = (req, res) => {
     }
   } catch {
     res.status(400).send("Hubo un problema, revise los datos y reintente");
+  }
+};
+
+exports.checkMail = (req, res) => {
+  try {
+    const email = req.params.email;
+    console.log(email)
+    Usuario.getByEmail(email, (err, data) => {
+      if (err) {
+        res.status(500).send("Error al procesar");
+      } else {
+        console.log("data", data)
+        if (data.length>0) {
+          res
+            .status(200)
+            .send({ available: "no", message: "El email ya existe, use otro" });
+        } else {
+          res
+            .status(200)
+            .send({
+              available: "yes",
+              message: "El email no existe, puede registrarse con este",
+            });
+        }
+      }
+    });
+  } catch {
+    res
+      .status(400)
+      .send(
+        "Hubo un problema al loguear, revise los datos y vuelva a intentar en un momento"
+      );
   }
 };

@@ -89,6 +89,23 @@ Usuario.get = (usuario, result) => {
   );
 };
 
+Usuario.getByEmail = (email, result) => {
+  sql.query(
+    "SELECT * FROM usuarios WHERE email='" +
+      email +
+      "';",
+    (err, res) => {
+      if (err) {
+        console.log(err);
+        result(null, err);
+        return;
+      }
+      result(null, res);
+      return;
+    }
+  );
+};
+
 Usuario.getAllFromOne = (id, result) => {
   sql.query(
     "SELECT * FROM usuarios WHERE id_usuario='" + id + "';",
