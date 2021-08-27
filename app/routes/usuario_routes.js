@@ -8,7 +8,7 @@ module.exports = app => {
     
     router.get("/usuarios", usuarios.findAll);
 
-    router.get("/usuarios/checkMail", usuarios.checkMail);
+    router.get("/usuarios/checkMail/:email", usuarios.checkMail);
     
     router.post("/usuario/crear", usuarios.create); // Crear desde interfaz
 

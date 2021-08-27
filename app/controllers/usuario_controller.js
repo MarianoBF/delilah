@@ -310,6 +310,7 @@ exports.delete = (req, res) => {
 
 exports.checkMail = (req, res) => {
   try {
+    console.log(req)
     const email = req.params.email;
     console.log("emailcheck", email);
     Usuario.getByEmail(email, (err, data) => {
