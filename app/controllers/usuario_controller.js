@@ -42,12 +42,12 @@ exports.create = (req, res) => {
 
 exports.login = (req, res) => {
   const errors = validationResult(req);
-  console.log(errors)
+  console.log(errors);
   if (!errors.isEmpty()) {
     return res.status(400).send({
       ok: false,
-      errors: errors.mapped()
-    })
+      errors: errors.mapped(),
+    });
   }
   try {
     const usuario = {
@@ -67,6 +67,7 @@ exports.login = (req, res) => {
               rol: data[0].rol,
               nombre_usuario: data[0].nombre_usuario,
               id_usuario: data[0].id_usuario,
+              email: data[0].email,
             },
             dbConfig.SECRETO,
             { expiresIn: 86400 }
@@ -263,23 +264,21 @@ exports.delete = (req, res) => {
 exports.checkMail = (req, res) => {
   try {
     const email = req.params.email;
-    console.log(email)
+    console.log("emailcheck", email);
     Usuario.getByEmail(email, (err, data) => {
       if (err) {
         res.status(500).send("Error al procesar");
       } else {
-        console.log("data", data)
-        if (data.length>0) {
+        console.log("data", data);
+        if (data.length > 0) {
           res
             .status(200)
             .send({ available: "no", message: "El email ya existe, use otro" });
         } else {
-          res
-            .status(200)
-            .send({
-              available: "yes",
-              message: "El email no existe, puede registrarse con este",
-            });
+          res.status(200).send({
+            available: "yes",
+            message: "El email no existe, puede registrarse con este",
+          });
         }
       }
     });
@@ -288,6 +287,47 @@ exports.checkMail = (req, res) => {
       .status(400)
       .send(
         "Hubo un problema al loguear, revise los datos y vuelva a intentar en un momento"
+      );
+  }
+};
+
+exports.checkToken = (req, res) => {
+  try {
+    const result = chequearToken(req.headers["x-access-token"]);
+    console.log("token check", req.headers["x-access-token"], result);
+
+    if (result.resultado === "Autorizado") {
+      const email = result.email;
+
+      Usuario.getByEmail(email, (err, data) => {
+        if (err) {
+          res.status(500).send("Error al procesar");
+        } else {
+          console.log("data", data);
+          if (data.length > 0) {
+            const token = jwt.sign(
+              {
+                rol: data[0].rol,
+                nombre_usuario: data[0].nombre_usuario,
+                id_usuario: data[0].id_usuario,
+                email: data[0].email,
+              },
+              dbConfig.SECRETO,
+              { expiresIn: 86400 }
+            );
+            res.status(200).send(token);
+          }
+        }
+      });
+    }
+    else {
+      res.status(401).send("Token inválido")
+    }
+  } catch {
+    res
+      .status(400)
+      .send(
+        "Hubo un problema al chequear el token"
       );
   }
 };
