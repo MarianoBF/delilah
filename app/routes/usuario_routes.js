@@ -10,7 +10,9 @@ module.exports = app => {
 
     router.get("/usuarios/checkMail", usuarios.checkMail);
     
-    router.post("/usuario/crear", usuarios.create);
+    router.post("/usuario/crear", usuarios.create); // Crear desde interfaz
+
+    router.post("/usuario/registro", usuarios.register); // Auto registro
 
     router.put("/usuario/:id_usuario", usuarios.update);
 

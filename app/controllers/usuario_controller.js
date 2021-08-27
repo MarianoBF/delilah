@@ -40,6 +40,53 @@ exports.create = (req, res) => {
   }
 };
 
+exports.register = (req, res) => {
+  try {
+    const usuario = new Usuario({
+      nombre_usuario: req.body.nombre_usuario,
+      password: bcrypt.hashSync(req.body.password, 8),
+      nombre_completo: req.body.nombre_completo,
+      email: req.body.email,
+      direccion: req.body.direccion,
+      telefono: req.body.telefono,
+      rol: "administrador", //usuarios se crean como admin
+    });
+    Usuario.create(usuario, (err, data) => {
+      if (err) {
+        res
+          .status(500)
+          .send(
+            "Error al procesar, probable nombre de usuario, nombre completo o email duplicado. "
+          );
+      } else {
+        const token = jwt.sign(
+          {
+            rol: data.rol,
+            nombre_usuario: data.nombre_usuario,
+            id_usuario: data.id_usuario,
+            email: data.email,
+          },
+          dbConfig.SECRETO,
+          { expiresIn: 86400 }
+        );
+        res.status(200).send({
+          message: "Usuario creado",
+          nombre_usuario: data.nombre_usuario,
+          id_usuario: data.id,
+          email: data.email,
+          token: token
+        });
+      }
+    });
+  } catch {
+    res
+      .status(400)
+      .send(
+        "Hubo un problema al crear el usuario, revise los datos y vuelva a intentar en un momento"
+      );
+  }
+};
+
 exports.login = (req, res) => {
   const errors = validationResult(req);
   console.log(errors);
@@ -315,7 +362,8 @@ exports.checkToken = (req, res) => {
               dbConfig.SECRETO,
               { expiresIn: 86400 }
             );
-            res.status(200).send(token);
+            console.log("sending token", token)
+            res.status(200).send({token: token});
           }
         }
       });
