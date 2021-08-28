@@ -20,7 +20,7 @@ module.exports = app => {
 
     router.post("/usuario/login",[check('nombre_usuario', 'Nombre es obligatorio').not().isEmpty()], usuarios.login);
 
-    router.get("/usuarios/checkToken", usuarios.checkToken);
+    router.get("/usuarios/refreshToken", usuarios.refreshToken);
 
     app.use("/api/v1/", router)
 

@@ -310,14 +310,12 @@ exports.delete = (req, res) => {
 
 exports.checkMail = (req, res) => {
   try {
-    console.log(req)
     const email = req.params.email;
     console.log("emailcheck", email);
     Usuario.getByEmail(email, (err, data) => {
       if (err) {
         res.status(500).send("Error al procesar");
       } else {
-        console.log("data", data);
         if (data.length > 0) {
           res
             .status(200)
@@ -339,10 +337,10 @@ exports.checkMail = (req, res) => {
   }
 };
 
-exports.checkToken = (req, res) => {
+exports.refreshToken = (req, res) => {
   try {
     const result = chequearToken(req.headers["x-access-token"]);
-    console.log("token check", req.headers["x-access-token"], result);
+    console.log("token check", result.resultado);
 
     if (result.resultado === "Autorizado") {
       const email = result.email;
@@ -351,7 +349,6 @@ exports.checkToken = (req, res) => {
         if (err) {
           res.status(500).send("Error al procesar");
         } else {
-          console.log("data", data);
           if (data.length > 0) {
             const token = jwt.sign(
               {
@@ -363,7 +360,6 @@ exports.checkToken = (req, res) => {
               dbConfig.SECRETO,
               { expiresIn: 86400 }
             );
-            console.log("sending token", token)
             res.status(200).send({token: token});
           }
         }
