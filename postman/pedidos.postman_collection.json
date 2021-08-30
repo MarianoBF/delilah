@@ -39,6 +39,40 @@
 			"response": []
 		},
 		{
+			"name": "Listar Producto por ID",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "{{TokenAdmin}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "http://{{lcl}}/api/v1/producto/7",
+					"protocol": "http",
+					"host": [
+						"{{lcl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"producto",
+						"7"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Sumar Producto",
 			"request": {
 				"method": "POST",
@@ -54,7 +88,7 @@
 					"urlencoded": [
 						{
 							"key": "nombre",
-							"value": "Otra prueba",
+							"value": "Otra prueba3",
 							"type": "text"
 						},
 						{
@@ -65,6 +99,11 @@
 						{
 							"key": "precio",
 							"value": "1000",
+							"type": "text"
+						},
+						{
+							"key": "imagen",
+							"value": "https://upload.wikimedia.org/wikipedia/commons/9/9d/Un_Cafe_y_un_sandwich_mixto.jpg",
 							"type": "text"
 						}
 					]
@@ -100,23 +139,29 @@
 					"urlencoded": [
 						{
 							"key": "nombre",
-							"value": "Producto J",
+							"value": "Producto Jd",
 							"type": "text"
 						},
 						{
 							"key": "descripcion",
 							"value": "Cualquiera",
-							"type": "text"
+							"type": "text",
+							"disabled": true
 						},
 						{
 							"key": "precio",
 							"value": "555",
 							"type": "text"
+						},
+						{
+							"key": "imagen",
+							"value": "https://upload.wikimedia.org/wikipedia/commons/9/9d/Un_Cafe_y_un_sandwich_mixto.jpg",
+							"type": "text"
 						}
 					]
 				},
 				"url": {
-					"raw": "http://{{lcl}}/api/v1/producto/3",
+					"raw": "http://{{lcl}}/api/v1/producto/17",
 					"protocol": "http",
 					"host": [
 						"{{lcl}}"
@@ -125,7 +170,7 @@
 						"api",
 						"v1",
 						"producto",
-						"3"
+						"17"
 					]
 				}
 			},
@@ -203,6 +248,61 @@
 			"response": []
 		},
 		{
+			"name": "Chequear mail",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "{{TokenAdmin}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://{{lcl}}/api/v1/usuarios/checkMail/juan@perez.com33",
+					"protocol": "http",
+					"host": [
+						"{{lcl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"usuarios",
+						"checkMail",
+						"juan@perez.com33"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Chequear Token",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "{{TokenAdmin}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://{{lcl}}/api/v1/usuarios/refreshToken",
+					"protocol": "http",
+					"host": [
+						"{{lcl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"usuarios",
+						"refreshToken"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Crear Usuario",
 			"request": {
 				"method": "POST",
@@ -212,12 +312,12 @@
 					"urlencoded": [
 						{
 							"key": "nombre_completo",
-							"value": "Juan Pérez33",
+							"value": "Juan Gómez",
 							"type": "text"
 						},
 						{
 							"key": "nombre_usuario",
-							"value": "jperez33",
+							"value": "usuario",
 							"type": "text"
 						},
 						{
@@ -237,7 +337,7 @@
 						},
 						{
 							"key": "email",
-							"value": "juan@perez.com33",
+							"value": "juan@gomez.com",
 							"type": "text"
 						}
 					]
@@ -301,6 +401,33 @@
 			"response": []
 		},
 		{
+			"name": "Borrar Usuario",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "{{TokenAdmin}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://{{lcl}}/api/v1/usuario/14",
+					"protocol": "http",
+					"host": [
+						"{{lcl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"usuario",
+						"14"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Editar Usuario",
 			"request": {
 				"method": "PUT",
@@ -316,13 +443,15 @@
 					"urlencoded": [
 						{
 							"key": "nombre_usuario",
-							"value": "dasdasdasdada",
-							"type": "text"
+							"value": "usuarioregular",
+							"type": "text",
+							"disabled": true
 						},
 						{
 							"key": "nombre_completo",
-							"value": "dasdadasdas",
-							"type": "text"
+							"value": "Nuevo nombre",
+							"type": "text",
+							"disabled": true
 						},
 						{
 							"key": "rol",
@@ -331,14 +460,30 @@
 						},
 						{
 							"key": "password",
-							"value": "abcdefas",
+							"value": "12345678",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "test@test.com2",
+							"type": "text"
+						},
+						{
+							"key": "direccion",
+							"value": "dasdasd 40 5°A",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "telefono",
+							"value": "4444444444",
 							"type": "text",
 							"disabled": true
 						}
 					]
 				},
 				"url": {
-					"raw": "http://{{lcl}}/api/v1/usuario/2",
+					"raw": "http://{{lcl}}/api/v1/usuario/8",
 					"protocol": "http",
 					"host": [
 						"{{lcl}}"
@@ -347,34 +492,7 @@
 						"api",
 						"v1",
 						"usuario",
-						"2"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Borrar Usuario",
-			"request": {
-				"method": "DELETE",
-				"header": [
-					{
-						"key": "x-access-token",
-						"value": "{{TokenAdmin}}",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "http://{{lcl}}/api/v1/usuario/4",
-					"protocol": "http",
-					"host": [
-						"{{lcl}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"usuario",
-						"4"
+						"8"
 					]
 				}
 			},
@@ -440,7 +558,7 @@
 						},
 						{
 							"key": "pago_via",
-							"value": "2500",
+							"value": "efvo",
 							"type": "text"
 						},
 						{
@@ -499,16 +617,16 @@
 					]
 				},
 				"url": {
-					"raw": "http://{{lcl}}/api/v1/pedido/1",
+					"raw": "http://{{hrk}}/api/v1/pedido/10000",
 					"protocol": "http",
 					"host": [
-						"{{lcl}}"
+						"{{hrk}}"
 					],
 					"path": [
 						"api",
 						"v1",
 						"pedido",
-						"1"
+						"10000"
 					]
 				}
 			},
@@ -605,13 +723,8 @@
 							"type": "text"
 						},
 						{
-							"key": "id_pedido",
-							"value": "1",
-							"type": "text"
-						},
-						{
 							"key": "id_producto",
-							"value": "4",
+							"value": "1",
 							"type": "text"
 						},
 						{
@@ -622,7 +735,7 @@
 					]
 				},
 				"url": {
-					"raw": "http://{{lcl}}/api/v1/detallePedido/1",
+					"raw": "http://{{lcl}}/api/v1/detallePedido/2",
 					"protocol": "http",
 					"host": [
 						"{{lcl}}"
@@ -631,7 +744,7 @@
 						"api",
 						"v1",
 						"detallePedido",
-						"1"
+						"2"
 					]
 				}
 			},
@@ -658,8 +771,9 @@
 						},
 						{
 							"key": "id_producto",
-							"value": "1",
-							"type": "text"
+							"value": "3",
+							"type": "text",
+							"disabled": true
 						},
 						{
 							"key": "cantidad_producto",
@@ -669,7 +783,7 @@
 					]
 				},
 				"url": {
-					"raw": "http://{{lcl}}/api/v1/detallePedido/1",
+					"raw": "http://{{lcl}}/api/v1/detallePedido/2",
 					"protocol": "http",
 					"host": [
 						"{{lcl}}"
@@ -678,7 +792,7 @@
 						"api",
 						"v1",
 						"detallePedido",
-						"1"
+						"2"
 					]
 				}
 			},
@@ -739,7 +853,7 @@
 		},
 		{
 			"key": "TokenAdmin",
-			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2wiOiJhZG1pbmlzdHJhZG9yIiwibm9tYnJlX3VzdWFyaW8iOiJqcGVyZXozMyIsImlkX3VzdWFyaW8iOjYsImlhdCI6MTYyNTk1MTc0NywiZXhwIjoxNjI2MDM4MTQ3fQ.pMpVaaCBFfk2VbJAz4yPJ0oNIdmDmKtoBhTqrH8zfPc"
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2wiOiJhZG1pbmlzdHJhZG9yIiwibm9tYnJlX3VzdWFyaW8iOiJqcGVyZXozMyIsImlkX3VzdWFyaW8iOjEsImlhdCI6MTYyOTA2NjczNCwiZXhwIjoxNjI5MTUzMTM0fQ.UB1XJ_OM14od0zCqmn6FfxXoF9kkiHXGqxnoyQNbvZw"
 		},
 		{
 			"key": "hrk",
