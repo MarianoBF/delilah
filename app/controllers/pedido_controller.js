@@ -16,11 +16,11 @@ exports.create = (req, res) => {
     if (validacion.resultado === "Autorizado") {
       const pedido = new Pedido({
         estado: "nuevo", //Todos los pedidos se crean obligatoriamente con estado nuevo, el Admin debe modificarlo luego
-        hora: req.body.hora,
+        hora: new Date(),
         pago_via: req.body.pago_via,
-        pago_monto: req.body.pago_monto,
+        pago_monto: 0, /// CALCULADO
         id_usuario: validacion.id_usuario,
-        observaciones: req.body.observaciones,
+        observaciones: "",
       });
       Pedido.create(pedido, (err, data) => {
         if (err) {
