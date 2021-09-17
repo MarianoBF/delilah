@@ -20,7 +20,7 @@ exports.create = (req, res) => {
         pago_via: req.body.pago_via,
         pago_monto: 0, /// CALCULADO
         id_usuario: validacion.id_usuario,
-        observaciones: "",
+        observaciones: req.body.observaciones,
       });
       Pedido.create(pedido, (err, data) => {
         if (err) {
