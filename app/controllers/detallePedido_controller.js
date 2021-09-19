@@ -10,6 +10,7 @@ exports.create = (req, res) => {
         id_producto: +req.body.id_producto,
         cantidad_producto: +req.body.cantidad_producto,
       });
+      console.log("check", detallePedido)
       Pedido.getOne(req.params.id_pedido, (err, data) => {
         if (err) {
           res.status(500).send("Error al procesar");

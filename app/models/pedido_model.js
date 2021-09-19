@@ -76,6 +76,26 @@ Pedido.update = (id, estado, result) => {
   );
 };
 
+Pedido.updateMO = (id, observaciones, result) => {
+  sql.query(
+    `UPDATE pedidos SET observaciones = '${observaciones}' WHERE id_pedido=${id};`,
+    (err, res) => {
+      if (err) {
+        console.log(err);
+        result(null, err);
+        return;
+      }
+      if (res.affectedRows === 0) {
+        console.log("no match!");
+        result(null, res);
+        return;
+      }
+      result(null, {observaciones: observaciones});
+      return;
+    }
+  );
+};
+
 Pedido.delete = (id, result) => {
   sql.query(`DELETE FROM pedidos WHERE id_pedido=${id};`, (err, res) => {
     if (err) {

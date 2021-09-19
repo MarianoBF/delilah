@@ -71,7 +71,6 @@ exports.update = (req, res) => {
     const estado = req.body.estado;
     if (validacion.rol === "administrador") {
       if (ESTADOSPOSIBLES.includes(estado.toLowerCase())) {
-        //solo se puede actualizar estado según requerimientos
         Pedido.update(id, estado, (err, data) => {
           if (err) {
             res.status(500).send("Error al procesar");
@@ -86,6 +85,34 @@ exports.update = (req, res) => {
       } else {
         res.status(400).send("Estado de pedido enviado no es válido");
       }
+    } else if (validacion.resultado === "Autorizado") {
+      res.status(403).send("No tiene permisos para editar pedidos");
+    } else {
+      res.status(401).send("Token inválido");
+    }
+  } catch {
+    res.status(400).send("Hubo un problema, revise los datos y reintente");
+  }
+};
+
+exports.updateObs = (req, res) => {
+  try {
+    const validacion = chequearToken(req.headers["x-access-token"]);
+    const id = req.params.id_pedido;
+    const observaciones = req.body.observaciones;
+    console.log("updateObs", observaciones, id)
+    if (validacion.rol === "administrador") {
+        Pedido.updateMO(id, observaciones, (err, data) => {
+          if (err) {
+            res.status(500).send("Error al procesar");
+          } else if (data.affectedRows === 0) {
+            res
+              .status(500)
+              .send("No se pudo actualizar, revise los datos ingresados");
+          } else {
+            res.send(data);
+          }
+        });     
     } else if (validacion.resultado === "Autorizado") {
       res.status(403).send("No tiene permisos para editar pedidos");
     } else {

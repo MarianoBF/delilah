@@ -10,6 +10,8 @@ module.exports = app => {
 
     router.patch("/pedido/:id_pedido", pedidos.update);
 
+    router.patch("/pedidoObs/:id_pedido", pedidos.updateObs);
+
     router.delete("/pedido/:id_pedido", pedidos.delete);
 
     app.use("/api/v1/", router)
