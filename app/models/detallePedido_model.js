@@ -18,7 +18,8 @@ DetallePedido.create = (newDetallePedido, result) => {
 };
 
 DetallePedido.getAllFromOne = (id, result) => {
-    sql.query("SELECT * FROM pedidos AS pe INNER JOIN detallePedidos AS dp ON pe.id_pedido = dp.id_pedido WHERE pe.id_pedido = "+id+";", (err, res) => {
+  // sql.query("SELECT * FROM pedidos AS pe INNER JOIN detallePedidos AS dp ON pe.id_pedido = dp.id_pedido WHERE pe.id_pedido = "+id+";", (err, res) => {
+    sql.query("SELECT * FROM detallePedidos WHERE id_pedido = "+id+";", (err, res) => {
         if (err) {
             console.log(err);
             result(null, res)
