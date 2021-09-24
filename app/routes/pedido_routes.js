@@ -12,6 +12,8 @@ module.exports = app => {
 
     router.patch("/pedidoObs/:id_pedido", pedidos.updateObs);
 
+    router.patch("/pedidoAmo/:id_pedido", pedidos.updateAmo);
+
     router.delete("/pedido/:id_pedido", pedidos.delete);
 
     app.use("/api/v1/", router)

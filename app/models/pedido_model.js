@@ -76,7 +76,7 @@ Pedido.update = (id, estado, result) => {
   );
 };
 
-Pedido.updateMO = (id, observaciones, result) => {
+Pedido.updateObs = (id, observaciones, result) => {
   sql.query(
     `UPDATE pedidos SET observaciones = '${observaciones}' WHERE id_pedido=${id};`,
     (err, res) => {
@@ -91,6 +91,26 @@ Pedido.updateMO = (id, observaciones, result) => {
         return;
       }
       result(null, {observaciones: observaciones});
+      return;
+    }
+  );
+};
+
+Pedido.updateAmo = (id, pago_monto, result) => {
+  sql.query(
+    `UPDATE pedidos SET pago_monto = '${pago_monto}' WHERE id_pedido=${id};`,
+    (err, res) => {
+      if (err) {
+        console.log(err);
+        result(null, err);
+        return;
+      }
+      if (res.affectedRows === 0) {
+        console.log("no match!");
+        result(null, res);
+        return;
+      }
+      result(null, {pago_monto: pago_monto});
       return;
     }
   );
