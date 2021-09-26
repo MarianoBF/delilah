@@ -27,7 +27,8 @@ connection.query(`CREATE TABLE IF NOT EXISTS productos (
     nombre VARCHAR(255) NOT NULL UNIQUE,
     descripcion VARCHAR(255),
     precio DECIMAL(8,2) NOT NULL,
-    imagen VARCHAR(255)
+    imagen VARCHAR(255),
+    borrado TINYINT(1) NOT NULL
   ) DEFAULT CHARSET=UTF8;`);
 
 connection.query(`CREATE TABLE IF NOT EXISTS pedidos (

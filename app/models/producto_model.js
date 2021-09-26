@@ -5,10 +5,13 @@ const Producto = function (producto) {
   this.descripcion = producto.descripcion;
   this.precio = producto.precio;
   this.imagen = producto.imagen;
+  this.borrado = producto.borrado;
 };
 
 Producto.create = (newProducto, result) => {
-  sql.query("INSERT INTO productos SET ?", newProducto, (err, res) => {
+  const {nombre,descripcion,precio,imagen} = newProducto
+  console.log(nombre,descripcion)
+  sql.query(`INSERT INTO productos (nombre, descripcion, precio, imagen, borrado) VALUES ('${nombre}', '${descripcion}', ${precio}, '${imagen}', ${0})`, (err, res) => {
     if (err) {
       console.log(err);
       result(err, null);
@@ -19,7 +22,7 @@ Producto.create = (newProducto, result) => {
 };
 
 Producto.getAll = (result) => {
-  sql.query("SELECT * FROM productos", (err, res) => {
+  sql.query("SELECT * FROM productos WHERE borrado = 0", (err, res) => {
     if (err) {
       console.log(err);
       result(null, err);
@@ -31,7 +34,7 @@ Producto.getAll = (result) => {
 };
 
 Producto.getByID = (id, result) => {
-  sql.query(`SELECT * FROM productos WHERE id_producto=${id}`, (err, res) => {
+  sql.query(`SELECT * FROM productos WHERE id_producto=${id} AND borrado = 0`, (err, res) => {
     if (err) {
       console.log(err);
       result(null, err);
@@ -48,7 +51,7 @@ Producto.update = (id, updateProd, result) => {
     precio = IF('${updateProd.precio}'='undefined',precio,'${updateProd.precio}'),
     descripcion = IF('${updateProd.descripcion}'='undefined',descripcion,'${updateProd.descripcion}'),
     imagen = IF('${updateProd.imagen}'='undefined',imagen,'${updateProd.imagen}') 
-    WHERE id_producto=${id};`,
+    WHERE id_producto=${id} AND borrado = 0;`,
     (err, res) => {
       if (err) {
         console.log(err);
@@ -68,7 +71,7 @@ Producto.update = (id, updateProd, result) => {
 
 Producto.delete = (id, result) => {
     sql.query(
-      `DELETE FROM productos WHERE id_producto=${id};`,
+      `UPDATE productos SET borrado = 1 WHERE id_producto=${id};`,
       (err, res) => {
         if (err) {
           console.log(err);
