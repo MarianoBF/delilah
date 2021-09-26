@@ -19,7 +19,8 @@ connection.query(`CREATE TABLE IF NOT EXISTS usuarios (
     rol VARCHAR(45) NOT NULL,
     nombre_completo VARCHAR(255) NOT NULL UNIQUE,
     direccion VARCHAR(255) NOT NULL,
-    telefono VARCHAR(255) NOT NULL
+    telefono VARCHAR(255) NOT NULL,
+    borrado TINYINT(1) NOT NULL
   ) DEFAULT CHARSET=UTF8;`);
 
 connection.query(`CREATE TABLE IF NOT EXISTS productos (

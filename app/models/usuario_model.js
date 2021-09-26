@@ -11,7 +11,8 @@ const Usuario = function (usuario) {
 };
 
 Usuario.create = (newUsuario, result) => {
-  sql.query("INSERT INTO usuarios SET ?", newUsuario, (err, res) => {
+  const {nombre_completo, nombre_usuario, password, email, rol, direccion, telefono} = newUsuario
+  sql.query(`INSERT INTO usuarios (nombre_completo, nombre_usuario, password, email, rol, direccion, telefono) VALUES ('${nombre_completo}', '${nombre_usuario}', '${password}', '${email}', '${rol}', '${direccion}', '${telefono}')`, (err, res) => {
     if (err) {
       console.log(err);
       result(err, null);
@@ -22,7 +23,7 @@ Usuario.create = (newUsuario, result) => {
 };
 
 Usuario.getAll = (result) => {
-  sql.query("SELECT * FROM usuarios", (err, res) => {
+  sql.query("SELECT * FROM usuarios WHERE borrado = 0", (err, res) => {
     if (err) {
       console.log(err);
       result(null, err);
@@ -31,6 +32,55 @@ Usuario.getAll = (result) => {
     result(null, res);
     return;
   });
+};
+
+Usuario.get = (usuario, result) => {
+  sql.query(
+    "SELECT * FROM usuarios WHERE nombre_usuario='" +
+      usuario.nombre_usuario +
+      "'AND borrado = 0;",
+    (err, res) => {
+      if (err) {
+        console.log(err);
+        result(null, err);
+        return;
+      }
+      result(null, res);
+      return;
+    }
+  );
+};
+
+Usuario.getByEmail = (email, result) => {
+  sql.query(
+    "SELECT * FROM usuarios WHERE email='" +
+      email +
+      "'AND borrado = 0;",
+    (err, res) => {
+      if (err) {
+        console.log(err);
+        result(null, err);
+        return;
+      }
+      result(null, res);
+      return;
+    }
+  );
+};
+
+Usuario.getAllFromOne = (id, result) => {
+  sql.query(
+    "SELECT * FROM usuarios WHERE id_usuario='" + id + "'AND borrado = 0;",
+    (err, res) => {
+      if (err) {
+        console.log(err);
+        result(null, err);
+        return;
+      }
+      result(null, res);
+      return;
+    }
+  );
 };
 
 Usuario.update = (id, updateUsuario, result) => {
@@ -42,7 +92,7 @@ Usuario.update = (id, updateUsuario, result) => {
     password = IF ('${updateUsuario.password}'='undefined',password,'${updateUsuario.password}'),
     email = IF ('${updateUsuario.email}'='undefined',email,'${updateUsuario.email}'),
     nombre_usuario = IF ('${updateUsuario.nombre_usuario}'='undefined',nombre_usuario,'${updateUsuario.nombre_usuario}'),
-    rol = '${updateUsuario.rol}' WHERE id_usuario=${id};`,
+    rol = '${updateUsuario.rol}' WHERE id_usuario=${id} AND borrado = 0;`,
     (err, res) => {
       if (err) {
         console.log(err);
@@ -61,7 +111,7 @@ Usuario.update = (id, updateUsuario, result) => {
 };
 
 Usuario.delete = (id, result) => {
-  sql.query(`DELETE FROM usuarios WHERE id_usuario=${id};`, (err, res) => {
+  sql.query(`UPDATE usuarios SET borrado = 1 WHERE id_usuario=${id};`, (err, res) => {
     if (err) {
       console.log(err);
       result(null, err);
@@ -70,55 +120,6 @@ Usuario.delete = (id, result) => {
     result(null, `Usuario ${id} borrado`);
     return;
   });
-};
-
-Usuario.get = (usuario, result) => {
-  sql.query(
-    "SELECT * FROM usuarios WHERE nombre_usuario='" +
-      usuario.nombre_usuario +
-      "';",
-    (err, res) => {
-      if (err) {
-        console.log(err);
-        result(null, err);
-        return;
-      }
-      result(null, res);
-      return;
-    }
-  );
-};
-
-Usuario.getByEmail = (email, result) => {
-  sql.query(
-    "SELECT * FROM usuarios WHERE email='" +
-      email +
-      "';",
-    (err, res) => {
-      if (err) {
-        console.log(err);
-        result(null, err);
-        return;
-      }
-      result(null, res);
-      return;
-    }
-  );
-};
-
-Usuario.getAllFromOne = (id, result) => {
-  sql.query(
-    "SELECT * FROM usuarios WHERE id_usuario='" + id + "';",
-    (err, res) => {
-      if (err) {
-        console.log(err);
-        result(null, err);
-        return;
-      }
-      result(null, res);
-      return;
-    }
-  );
 };
 
 module.exports = Usuario;
