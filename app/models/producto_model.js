@@ -10,8 +10,7 @@ const Producto = function (producto) {
 
 Producto.create = (newProducto, result) => {
   const {nombre,descripcion,precio,imagen} = newProducto
-  console.log(nombre,descripcion)
-  sql.query(`INSERT INTO productos (nombre, descripcion, precio, imagen, borrado) VALUES ('${nombre}', '${descripcion}', ${precio}, '${imagen}', ${0})`, (err, res) => {
+  sql.query(`INSERT INTO productos (nombre, descripcion, precio, imagen) VALUES ('${nombre}', '${descripcion}', ${precio}, '${imagen}')`, (err, res) => {
     if (err) {
       console.log(err);
       result(err, null);

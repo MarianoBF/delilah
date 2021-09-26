@@ -20,7 +20,7 @@ connection.query(`CREATE TABLE IF NOT EXISTS usuarios (
     nombre_completo VARCHAR(255) NOT NULL UNIQUE,
     direccion VARCHAR(255) NOT NULL,
     telefono VARCHAR(255) NOT NULL,
-    borrado TINYINT(1) NOT NULL
+    borrado TINYINT(1) NOT NULL DEFAULT 0
   ) DEFAULT CHARSET=UTF8;`);
 
 connection.query(`CREATE TABLE IF NOT EXISTS productos (
@@ -29,17 +29,18 @@ connection.query(`CREATE TABLE IF NOT EXISTS productos (
     descripcion VARCHAR(255),
     precio DECIMAL(8,2) NOT NULL,
     imagen VARCHAR(255),
-    borrado TINYINT(1) NOT NULL
+    borrado TINYINT(1) NOT NULL DEFAULT 0
   ) DEFAULT CHARSET=UTF8;`);
 
 connection.query(`CREATE TABLE IF NOT EXISTS pedidos (
     id_pedido INT(10) NOT NULL PRIMARY KEY AUTO_INCREMENT,
     estado VARCHAR(45) NOT NULL,
-    hora datetime NOT NULL,
+    hora datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     pago_via VARCHAR(45) NOT NULL,
     pago_monto DECIMAL(8,2) NOT NULL,
     observaciones VARCHAR(200),
     id_usuario INT(10) NOT NULL,
+    borrado TINYINT(1) NOT NULL DEFAULT 0,
     FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
   ) DEFAULT CHARSET=UTF8;`);
 
