@@ -10,11 +10,11 @@ chequearToken = (token) => {
   jwt.verify(token, dbConfig.SECRETO, (err, decoded) => {
     if (err) {
         validacion =  "Token inválido";
-        console.log(decoded)
+        // console.log(decoded)
     } else {
         decoded.resultado = "Autorizado";
         validacion = decoded;
-        console.log(decoded)
+        // console.log(decoded)
     }
   });
   return validacion

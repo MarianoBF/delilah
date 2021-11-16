@@ -22,7 +22,11 @@ app.use(cors(corsOptions));
 app.use('/docs', swaggerUI.serve, swaggerUI.setup(docs));
 
 app.use("/", function(req, res, next) {
+  const chequearToken = require('./app/middleware/auth')
   console.log("Request to", req.method, req.originalUrl)
+  const token = req.rawHeaders.find(item=>item.includes('ey') && item.length > 100)
+  const decoded = chequearToken(token)
+  console.log("Chequeando token. Rol:", decoded.rol, '- Resultado: ', decoded.resultado)
   next();
 })
 
