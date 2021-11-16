@@ -21,8 +21,13 @@ app.use(cors(corsOptions));
 
 app.use('/docs', swaggerUI.serve, swaggerUI.setup(docs));
 
+app.use("/", function(req, res, next) {
+  console.log("Request to", req.method, req.originalUrl)
+  next();
+})
+
 app.get("/", (req, res) => {
-    res.json({ message: "Servicio operativo" });
+  res.json({ message: "Servicio operativo" });
   });
 
 require("./app/routes/producto_routes")(app);
