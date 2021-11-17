@@ -169,6 +169,59 @@ paths:
           $ref: "#components/responses/NoAutorizado"
         "500":
           $ref: "#components/responses/ErrorServidor"
+
+/usuarios/checkmail/email:
+    get:
+      summary: "Chequear si el email puede ser usado"
+      tags:
+        - "Usuarios"
+      parameters:
+        - $ref: "#components/parameters/AccessToken"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#components/schemas/Usuario"
+        "400":
+          $ref: "#components/responses/DatosFaltantes"
+        "401":
+          $ref: "#components/responses/SinAcceso"
+        "403":
+          $ref: "#components/responses/NoAutorizado"
+        "500":
+          $ref: "#components/responses/ErrorServidor"
+
+/usuarios/refreshToken/email:
+    get:
+      summary: "Refrescar el token con uno renovado"
+      tags:
+        - "Usuarios"
+      parameters:
+        - $ref: "#components/parameters/AccessToken"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#components/schemas/Usuario"
+        "400":
+          $ref: "#components/responses/DatosFaltantes"
+        "401":
+          $ref: "#components/responses/SinAcceso"
+        "403":
+          $ref: "#components/responses/NoAutorizado"
+        "500":
+          $ref: "#components/responses/ErrorServidor"
+
+          
+
   /usuario/login:
     post:
       summary: "Login de Usuarios"
@@ -206,7 +259,54 @@ paths:
           $ref: "#components/responses/ErrorServidor"
   /usuario/crear:
     post:
-      summary: "Crear un usuario"
+      summary: "Crear un usuario (admin)"
+      tags:
+        - "Usuarios"
+      requestBody:
+        description: "Los detalles del usuario"
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              required:
+                - nombre_usuario
+                - nombre_completo
+                - email
+                - password
+              properties:
+                nombre_completo:
+                  type: "string"
+                  example: "Juan Pérez"
+                nombre_usuario:
+                  type: "string"
+                  example: "jperez"
+                direccion:
+                  type: "string"
+                  example: "Marcelo T. Alvear 1614 4°A"
+                telefono:
+                  type: "string"
+                  example: "0303456 ext 2098"
+                password:
+                  type: "string"
+                  example: "12345678"
+                email:
+                  type: "string"
+                  example: juan@perez.com
+      responses:
+        "200":
+          description: "Todo OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Usuario"
+        "400":
+          $ref: "#components/responses/DatosFaltantes"
+        "500":
+          $ref: "#components/responses/ErrorServidor"
+  /usuario/registro:
+    post:
+      summary: "Registrar un usuario (por propio usuario)"
       tags:
         - "Usuarios"
       requestBody:
