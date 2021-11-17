@@ -31,35 +31,6 @@ paths:
           $ref: "#components/responses/SinAcceso"
         "500":
           $ref: "#components/responses/ErrorServidor"
-  /producto:
-    post:
-      summary: "Cargar un nuevo producto"
-      tags:
-        - "Productos"
-      parameters:
-        - $ref: "#components/parameters/AccessToken"
-      requestBody:
-        description: "Los detalles del producto"
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Producto"
-      responses:
-        "200":
-          description: "Todo OK"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Producto"
-        "400":
-          $ref: "#components/responses/DatosFaltantes"
-        "401":
-          $ref: "#components/responses/SinAcceso"
-        "403":
-          $ref: "#components/responses/NoAutorizado"
-        "500":
-          $ref: "#components/responses/ErrorServidor"
   /producto/{id_producto}:
     get:
       summary: "Listar Producto por id"
@@ -136,6 +107,35 @@ paths:
       responses:
         "200":
           description: "OK"
+        "400":
+          $ref: "#components/responses/DatosFaltantes"
+        "401":
+          $ref: "#components/responses/SinAcceso"
+        "403":
+          $ref: "#components/responses/NoAutorizado"
+        "500":
+          $ref: "#components/responses/ErrorServidor"
+  /producto:
+    post:
+      summary: "Cargar un nuevo producto"
+      tags:
+        - "Productos"
+      parameters:
+        - $ref: "#components/parameters/AccessToken"
+      requestBody:
+        description: "Los detalles del producto"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Producto"
+      responses:
+        "200":
+          description: "Todo OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Producto"
         "400":
           $ref: "#components/responses/DatosFaltantes"
         "401":
@@ -484,69 +484,6 @@ paths:
           $ref: "#components/responses/NoAutorizado"
         "500":
           $ref: "#components/responses/ErrorServidor"
-  /pedido/{id_pedido}:
-    patch:
-      summary: "Modificar el estado de un pedido"
-      tags:
-        - "Pedidos"
-      parameters:
-        - $ref: "#components/parameters/AccessToken"
-        - name: "id_pedido"
-          required: true
-          in: path
-          schema:
-            type: "integer"
-      requestBody:
-        description: "Nuevo estado"
-        required: true
-        content:
-          application/json:
-            schema:
-              type: "object"
-              required:
-                - estado
-              properties:
-                estado:
-                  type: "string"
-                  example: "cancelado"     
-      responses:
-        "200":
-          description: "OK"
-          content:
-            application/json:
-              schema:
-                type: "object"
-                $ref: "#/components/schemas/Pedido"
-        "400":
-          $ref: "#components/responses/DatosFaltantes"
-        "401":
-          $ref: "#components/responses/SinAcceso"
-        "403":
-          $ref: "#components/responses/NoAutorizado"
-        "500":
-          $ref: "#components/responses/ErrorServidor"
-    delete:
-      summary: "Borrar Pedido"
-      tags:
-        - "Pedidos"
-      parameters:
-        - $ref: "#components/parameters/AccessToken"
-        - name: "id_pedido"
-          required: true
-          in: path
-          schema:
-            type: "integer"
-      responses:
-        "200":
-          description: "OK"
-        "400":
-          $ref: "#components/responses/DatosFaltantes"
-        "401":
-          $ref: "#components/responses/SinAcceso"
-        "403":
-          $ref: "#components/responses/NoAutorizado"
-        "500":
-          $ref: "#components/responses/ErrorServidor"
 
   /pedidoObs/{id_pedido}:
     patch:
@@ -623,6 +560,69 @@ paths:
               schema:
                 type: "object"
                 $ref: "#/components/schemas/Pedido"
+        "400":
+          $ref: "#components/responses/DatosFaltantes"
+        "401":
+          $ref: "#components/responses/SinAcceso"
+        "403":
+          $ref: "#components/responses/NoAutorizado"
+        "500":
+          $ref: "#components/responses/ErrorServidor"
+  /pedido/{id_pedido}:
+    patch:
+      summary: "Modificar el estado de un pedido"
+      tags:
+        - "Pedidos"
+      parameters:
+        - $ref: "#components/parameters/AccessToken"
+        - name: "id_pedido"
+          required: true
+          in: path
+          schema:
+            type: "integer"
+      requestBody:
+        description: "Nuevo estado"
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              required:
+                - estado
+              properties:
+                estado:
+                  type: "string"
+                  example: "cancelado"     
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                $ref: "#/components/schemas/Pedido"
+        "400":
+          $ref: "#components/responses/DatosFaltantes"
+        "401":
+          $ref: "#components/responses/SinAcceso"
+        "403":
+          $ref: "#components/responses/NoAutorizado"
+        "500":
+          $ref: "#components/responses/ErrorServidor"
+    delete:
+      summary: "Borrar Pedido"
+      tags:
+        - "Pedidos"
+      parameters:
+        - $ref: "#components/parameters/AccessToken"
+        - name: "id_pedido"
+          required: true
+          in: path
+          schema:
+            type: "integer"
+      responses:
+        "200":
+          description: "OK"
         "400":
           $ref: "#components/responses/DatosFaltantes"
         "401":
