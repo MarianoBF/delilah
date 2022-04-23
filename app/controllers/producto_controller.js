@@ -29,6 +29,8 @@ exports.create = (req, res) => {
 };
 
 exports.findAll = (req, res) => {
+  console.log("aa", req.headers["x-access-token"], req)
+
   try {
   if (chequearToken(req.headers["x-access-token"]).resultado === "Autorizado") {
     Producto.getAll((err, data) => {
@@ -38,7 +40,14 @@ exports.findAll = (req, res) => {
         res.send(data);
       }
     });
-  } else {
+  } else if (req.headers["x-access-token"] === 'visitor') {
+    Producto.getAll((err, data) => {
+      if (err) {
+        res.status(500).send("Error al procesar");
+      } else {
+        res.send(data);
+      }
+    });  } else {
     res.status(401).send("Token inválido");
   } } catch {
     res.status(400).send("Hubo un problema, revise los datos y reintente");
