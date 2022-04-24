@@ -12,6 +12,7 @@ paths:
   /productos:
     get:
       summary: "Listar productos"
+      description: "Con el token del login o con token 'visitor' para mostrarlos en modo guest"
       tags:
         - "Productos"
       parameters:

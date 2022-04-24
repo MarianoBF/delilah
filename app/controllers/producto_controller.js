@@ -29,8 +29,6 @@ exports.create = (req, res) => {
 };
 
 exports.findAll = (req, res) => {
-  console.log("aa", req.headers["x-access-token"], req)
-
   try {
   if (chequearToken(req.headers["x-access-token"]).resultado === "Autorizado") {
     Producto.getAll((err, data) => {
