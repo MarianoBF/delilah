@@ -6,10 +6,10 @@ exports.create = (req, res) => {
   const validacion = chequearToken(req.headers["x-access-token"]);
   if (validacion.rol === "administrador") {
     const producto = new Producto({
-      nombre: req.body.nombre,
-      descripcion: req.body.descripcion,
-      precio: req.body.precio,
-      imagen: req.body.imagen,
+      nombre: req.body.nombre || '',
+      descripcion: req.body.descripcion || '',
+      precio: req.body.precio || 0,
+      imagen: req.body.imagen || '',
     });
     Producto.create(producto, (err, data) => {
       if (err) {
