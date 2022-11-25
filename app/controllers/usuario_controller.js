@@ -332,7 +332,7 @@ exports.checkMail = (req, res) => {
     res
       .status(400)
       .send(
-        "Hubo un problema al loguear, revise los datos y vuelva a intentar en un momento"
+        "Hubo un problema, revise los datos y vuelva a intentar en un momento"
       );
   }
 };

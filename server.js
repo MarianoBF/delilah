@@ -3,6 +3,7 @@ const cors = require("cors");
 const swaggerUI = require('swagger-ui-express');
 const YAML = require('yamljs');
 const connection = require('./app/models/db');
+
 const docs = YAML.load('./spec.yaml');
 require('dotenv').config();
 
@@ -26,7 +27,11 @@ app.use("/", function(req, res, next) {
   console.log("Request to", req.method, req.originalUrl)
   const token = req.rawHeaders.find(item=>item.includes('ey') && item.length > 100)
   const decoded = chequearToken(token)
-  console.log("Chequeando token. Rol:", decoded.rol, '- Resultado: ', decoded.resultado)
+  if (token) {
+    console.log("Chequeando token. Rol:", decoded.rol, '- Resultado: ', decoded.resultado)
+  } else {
+    console.log("Request sin token")
+  }
   next();
 })
 
